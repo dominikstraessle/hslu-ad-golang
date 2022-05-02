@@ -108,6 +108,7 @@ func Test_Quicksort(t *testing.T) {
 func BenchmarkQuicksort500000(b *testing.B) {
 	// Aufgabe d) Laufzeiten sind immer ähnlich ca: 275335833 ns/op
 	// Aufgabe f) Laufzeiten optimiert -> neu sind: 177339872 ns/op
+	// Aufgabe 3.b) Laufzeiten optimiert -> neu sind: 114614168 ns/op -> quick insertion
 	a := RandomBytes(500_000)
 	for i := 0; i < b.N; i++ {
 		Quicksort(a)

@@ -11,7 +11,7 @@ func Quicksort[T ad.Ordered](a []T) []T {
 		return a
 	}
 
-	return quicksort(a, 0, len(a)-1, 12)
+	return quicksort(a, 0, len(a)-1, 32)
 }
 
 func quicksort[T ad.Ordered](a []T, left, right, threshold int) []T {
