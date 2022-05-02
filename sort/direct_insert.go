@@ -1,19 +1,17 @@
 package sort
 
-import "ad/quicksort"
+import (
+	"ad"
+)
 
-func directInsert[T quicksort.Ordered](a []T) []T {
-	var elt T
-	j := 0
-
-	for i := 1; i < len(a); i++ {
-		elt = a[i]
-		j = i
-		for (j > 0) && (a[j-1] > elt) {
-			a[j] = a[j-1]
-			j--
+func DirectInsert[T ad.Ordered](arr []T) []T {
+	for currentIndex := 1; currentIndex < len(arr); currentIndex++ {
+		temporary := arr[currentIndex]
+		iterator := currentIndex
+		for ; iterator > 0 && arr[iterator-1] > temporary; iterator-- {
+			arr[iterator] = arr[iterator-1]
 		}
-		a[j] = elt
+		arr[iterator] = temporary
 	}
-	return a
+	return arr
 }

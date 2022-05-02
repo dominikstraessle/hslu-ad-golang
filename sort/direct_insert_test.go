@@ -39,8 +39,8 @@ func Test_directInsert(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := directInsert(tt.args.a); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("directInsert() = %v, want %v", got, tt.want)
+			if got := DirectInsert(tt.args.a); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("DirectInsert() = %v, want %v", got, tt.want)
 			}
 		})
 	}
@@ -52,7 +52,7 @@ func BenchmarkDirectInsert(b *testing.B) {
 		x = append(x, rand.Intn(10000))
 	}
 	for i := 0; i < b.N; i++ {
-		directInsert(x)
+		DirectInsert(x)
 	}
 }
 
@@ -62,7 +62,7 @@ func BenchmarkDirectInsertOptimistic(b *testing.B) {
 		y = append(y, i)
 	}
 	for i := 0; i < b.N; i++ {
-		directInsert(y)
+		DirectInsert(y)
 	}
 }
 
@@ -72,6 +72,6 @@ func BenchmarkDirectInsertPessimistic(b *testing.B) {
 		z = append(z, 10000-i)
 	}
 	for i := 0; i < b.N; i++ {
-		directInsert(z)
+		DirectInsert(z)
 	}
 }

@@ -1,20 +1,20 @@
 package quicksort
 
-import "math/rand"
+import (
+	"ad"
+	"ad/sort"
+	"math/rand"
+)
 
-type Ordered interface {
-	~int | ~int8 | ~int16 | ~int32 | ~int64 | ~uint | ~uint8 | ~uint16 | ~uint32 | ~uint64 | ~float32 | ~float64 | ~string
-}
-
-func Quicksort[T Ordered](a []T) []T {
+func Quicksort[T ad.Ordered](a []T) []T {
 	if len(a) <= 1 {
 		return a
 	}
 
-	return quicksort(a, 0, len(a)-1)
+	return quicksort(a, 0, len(a)-1, 12)
 }
 
-func quicksort[T Ordered](a []T, left, right int) []T {
+func quicksort[T ad.Ordered](a []T, left, right, threshold int) []T {
 	up := left        // left border
 	down := right - 1 // right border without pivot
 	t := a[right]     // right most element as pivot
@@ -40,10 +40,17 @@ func quicksort[T Ordered](a []T, left, right int) []T {
 
 	a[up], a[right] = a[right], a[up] // pivot element to final position (a[up])
 	if left < (up - 1) {
-		quicksort(a, left, up-1) // left side
+		if len(a[left:up-1]) <= threshold {
+			leftA := sort.DirectInsert(a[left : up-1])
+			for i, newElement := range leftA {
+				a[i] = newElement
+			}
+		} else {
+			quicksort(a, left, up-1, threshold) // left side
+		}
 	}
 	if (up + 1) < right {
-		quicksort(a, up+1, right) // right side
+		quicksort(a, up+1, right, threshold) // right side
 	}
 	return a
 }

@@ -7,9 +7,10 @@ import (
 
 func Test_quicksort(t *testing.T) {
 	type args struct {
-		a     []byte
-		left  int
-		right int
+		a         []byte
+		left      int
+		right     int
+		threshold int
 	}
 	tests := []struct {
 		name string
@@ -45,7 +46,7 @@ func Test_quicksort(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := quicksort(tt.args.a, tt.args.left, tt.args.right); !reflect.DeepEqual(got, tt.want) {
+			if got := quicksort(tt.args.a, tt.args.left, tt.args.right, tt.args.threshold); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("quicksort() = %v, want %v", got, tt.want)
 			}
 		})
