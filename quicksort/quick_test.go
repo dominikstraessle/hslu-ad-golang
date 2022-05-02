@@ -104,7 +104,7 @@ func Test_Quicksort(t *testing.T) {
 	}
 }
 
-func BenchmarkQuicksort(b *testing.B) {
+func BenchmarkQuicksort500000(b *testing.B) {
 	// Aufgabe d) Laufzeiten sind immer ähnlich ca: 275335833 ns/op
 	// Aufgabe f) Laufzeiten optimiert -> neu sind: 177339872 ns/op
 	a := RandomBytes(500_000)
@@ -114,11 +114,21 @@ func BenchmarkQuicksort(b *testing.B) {
 
 	// byte 0-255 verschiedene Zeichen sind möglich -> bei 500000 führt dies zu sehr vielen gleichen keys
 }
+func BenchmarkQuicksort500(b *testing.B) {
+	a := RandomBytes(500)
+	for i := 0; i < b.N; i++ {
+		Quicksort(a)
+	}
+}
 
 func BenchmarkQuicksortStackOverflow(b *testing.B) {
+	b.Skip("unable to get a stack overflow after one minute...")
 	// unable to get a stack overflow after one minute...
 	// java default ca 1mb
 	// increase with java -Xss1048576
 	a := RandomBytes(500_000_000)
 	Quicksort(a)
 }
+
+// Aufgabe j) komplexität verhältnis sollte 0.000474 sein im best case
+// aber average case ist ca 0.000127 was heisst, ca. 4x langsamer als best case

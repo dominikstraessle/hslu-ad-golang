@@ -52,3 +52,9 @@ func RandomBytes(length int) []byte {
 	}
 	return randomBytes
 }
+
+// Aufgabe i) polynomial
+// Aufgabe i) O(n*ln(n))
+// Aufgabe i) schneller
+// Aufgabe i) solve(n*ln(n)=2) -> n = 2,345
+// Aufgabe i) 4,691 * ln(4,691) -> 7.25s
