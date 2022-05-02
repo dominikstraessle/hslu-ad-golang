@@ -40,8 +40,8 @@ func quicksort[T ad.Ordered](a []T, left, right, threshold int) []T {
 
 	a[up], a[right] = a[right], a[up] // pivot element to final position (a[up])
 	if left < (up - 1) {
-		if len(a[left:up-1]) <= threshold {
-			leftA := sort.DirectInsert(a[left : up-1])
+		if len(a[left:up]) <= threshold {
+			leftA := sort.DirectInsert(a[left:up])
 			for i, newElement := range leftA {
 				a[i] = newElement
 			}
@@ -50,7 +50,14 @@ func quicksort[T ad.Ordered](a []T, left, right, threshold int) []T {
 		}
 	}
 	if (up + 1) < right {
-		quicksort(a, up+1, right, threshold) // right side
+		if len(a[up+1:right+1]) <= threshold {
+			rightA := sort.DirectInsert(a[up+1 : right+1])
+			for i, newElement := range rightA {
+				a[up+i+1] = newElement
+			}
+		} else {
+			quicksort(a, up+1, right, threshold) // right side
+		}
 	}
 	return a
 }
