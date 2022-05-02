@@ -103,3 +103,22 @@ func Test_Quicksort(t *testing.T) {
 		})
 	}
 }
+
+func BenchmarkQuicksort(b *testing.B) {
+	// Aufgabe d) Laufzeiten sind immer ähnlich ca: 275335833 ns/op
+	// Aufgabe f) Laufzeiten optimiert -> neu sind: 177339872 ns/op
+	a := RandomBytes(500_000)
+	for i := 0; i < b.N; i++ {
+		Quicksort(a)
+	}
+
+	// byte 0-255 verschiedene Zeichen sind möglich -> bei 500000 führt dies zu sehr vielen gleichen keys
+}
+
+func BenchmarkQuicksortStackOverflow(b *testing.B) {
+	// unable to get a stack overflow after one minute...
+	// java default ca 1mb
+	// increase with java -Xss1048576
+	a := RandomBytes(500_000_000)
+	Quicksort(a)
+}

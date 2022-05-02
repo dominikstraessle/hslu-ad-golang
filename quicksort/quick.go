@@ -1,5 +1,7 @@
 package quicksort
 
+import "math/rand"
+
 func Quicksort(a []byte) []byte {
 	if len(a) <= 1 {
 		return a
@@ -10,7 +12,7 @@ func Quicksort(a []byte) []byte {
 
 func quicksort(a []byte, left, right int) []byte {
 	up := left        // left border
-	down := right - 1 //right border without pivot
+	down := right - 1 // right border without pivot
 	t := a[right]     // right most element as pivot
 	allChecked := false
 
@@ -19,7 +21,7 @@ func quicksort(a []byte, left, right int) []byte {
 			up++ // search greater (>=) element from the left side
 		}
 
-		for (a[down] >= t) && (down > up) {
+		for (a[down] > t) && (down > up) {
 			down-- // search lower (<) element from the right side
 		}
 
@@ -40,4 +42,13 @@ func quicksort(a []byte, left, right int) []byte {
 		quicksort(a, up+1, right) // right side
 	}
 	return a
+}
+
+func RandomBytes(length int) []byte {
+	randomBytes := make([]byte, length)
+	_, err := rand.Read(randomBytes)
+	if err != nil {
+		panic(err)
+	}
+	return randomBytes
 }
