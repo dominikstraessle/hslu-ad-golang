@@ -1,7 +1,9 @@
 package sort
 
-func directInsert(a []int) []int {
-	elt := 0
+import "ad/quicksort"
+
+func directInsert[T quicksort.Ordered](a []T) []T {
+	var elt T
 	j := 0
 
 	for i := 1; i < len(a); i++ {
