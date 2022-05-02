@@ -2,7 +2,11 @@ package quicksort
 
 import "math/rand"
 
-func Quicksort(a []byte) []byte {
+type Ordered interface {
+	~int | ~int8 | ~int16 | ~int32 | ~int64 | ~uint | ~uint8 | ~uint16 | ~uint32 | ~uint64 | ~float32 | ~float64 | ~string
+}
+
+func Quicksort[T Ordered](a []T) []T {
 	if len(a) <= 1 {
 		return a
 	}
@@ -10,7 +14,7 @@ func Quicksort(a []byte) []byte {
 	return quicksort(a, 0, len(a)-1)
 }
 
-func quicksort(a []byte, left, right int) []byte {
+func quicksort[T Ordered](a []T, left, right int) []T {
 	up := left        // left border
 	down := right - 1 // right border without pivot
 	t := a[right]     // right most element as pivot
