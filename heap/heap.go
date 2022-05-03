@@ -85,8 +85,10 @@ func (f *FixedSizeHeap) DeleteRoot() byte {
 		f.arr[f.lastIndex-1], f.arr[0] = 0, f.arr[f.lastIndex-1]
 	}
 
+	// check and switch children
 	f.switchChild(0)
 
+	// update the last index
 	if f.lastIndex == -1 {
 		f.lastIndex = len(f.arr) - 1
 	} else {
@@ -106,11 +108,11 @@ func (f *FixedSizeHeap) switchChild(i int) {
 	}
 
 	if f.arr[leftChild] > f.arr[i] {
-		if f.arr[leftChild] > f.arr[rightChild] {
+		if f.arr[leftChild] > f.arr[rightChild] { // left child is greater
 			f.arr[i], f.arr[leftChild] = f.arr[leftChild], f.arr[i]
 			f.switchChild(leftChild)
 			return
-		} else {
+		} else { // right child is greater
 			f.arr[i], f.arr[rightChild] = f.arr[rightChild], f.arr[i]
 			f.switchChild(rightChild)
 			return
