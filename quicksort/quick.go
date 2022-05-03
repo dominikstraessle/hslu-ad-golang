@@ -22,7 +22,7 @@ func quicksort[T ad.Ordered](a []T, left, right, threshold int) []T {
 
 	for allChecked == false {
 		for a[up] < t {
-			up++ // search greater (>=) element from the left side
+			up++ // search greater (>) element from the left side
 		}
 
 		for (a[down] > t) && (down > up) {
