@@ -47,6 +47,24 @@ func TestFixedSizeHeap_InsertFull(t *testing.T) {
 	f.Insert(1)
 }
 
+func TestFixedSizeHeap_InsertSameSize(t *testing.T) {
+	f := NewFixedSizeHeap(10)
+	f.Insert('a')
+	f.Insert('a')
+	f.Insert('b')
+	f.Insert('a')
+	f.Insert('a')
+	f.Insert('x')
+	f.Insert('a')
+	f.Insert('c')
+	f.Insert('a')
+	f.Insert('x')
+	fmt.Println(f.Print())
+	if f.Print() != "xxbacaaaaa" {
+		t.Errorf("Expected %s got %s", "xxbacaaaaa", f.Print())
+	}
+}
+
 func TestFixedSizeHeap_DeleteEmpty(t *testing.T) {
 	f := NewFixedSizeHeap(10)
 	root := f.DeleteRoot()
