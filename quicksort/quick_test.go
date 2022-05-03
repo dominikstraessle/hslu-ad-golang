@@ -119,15 +119,10 @@ func BenchmarkQuicksort500000(b *testing.B) {
 	// byte 0-255 verschiedene Zeichen sind möglich -> bei 500000 führt dies zu sehr vielen gleichen keys
 }
 func BenchmarkQuicksort250_000(b *testing.B) {
-	// Aufgabe d) Laufzeiten sind immer ähnlich ca: 275335833 ns/op
-	// Aufgabe f) Laufzeiten optimiert -> neu sind: 177339872 ns/op
-	// Aufgabe 3.b) Laufzeiten optimiert -> neu sind: 114614168 ns/op -> quick insertion
 	a := RandomBytes(250_000)
 	for i := 0; i < b.N; i++ {
 		Quicksort(a)
 	}
-
-	// byte 0-255 verschiedene Zeichen sind möglich -> bei 500000 führt dies zu sehr vielen gleichen keys
 }
 func BenchmarkQuicksort500(b *testing.B) {
 	a := RandomBytes(500)
