@@ -8,7 +8,6 @@ type IntegerHeap interface {
 
 // only supports bytes
 // a zero value is used for empty array entries
-// duplicate values are not allowed at the moment
 type FixedSizeHeap struct {
 	arr       []byte
 	lastIndex int // unused or -1 if full
@@ -50,7 +49,7 @@ func (f *FixedSizeHeap) switchParent(e byte, i int) {
 	j := parentIndex(i)
 
 	if f.arr[j] >= e {
-		return
+		return // parent is gte current value
 	}
 
 	f.arr[j], f.arr[i] = f.arr[i], f.arr[j]
