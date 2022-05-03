@@ -39,3 +39,18 @@ func TestFixedSizeHeap_Insert(t *testing.T) {
 		t.Errorf("want %s got %s", want, f.Print())
 	}
 }
+
+func TestFixedSizeHeap_InsertFull(t *testing.T) {
+	t.Skip()
+	f := NewFixedSizeHeap(1)
+	f.Insert(1)
+	f.Insert(1)
+}
+
+func TestFixedSizeHeap_DeleteEmpty(t *testing.T) {
+	f := NewFixedSizeHeap(10)
+	root := f.DeleteRoot()
+	if root != 0 {
+		t.Errorf("Expected 0 but got %v", root)
+	}
+}
