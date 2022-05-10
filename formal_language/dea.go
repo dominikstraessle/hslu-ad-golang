@@ -1,11 +1,19 @@
 package formal_language
 
-import "bytes"
+import (
+	"bytes"
+	"regexp"
+)
 
 const (
 	ValidZero = '0'
 	ValidOne  = '1'
 )
+
+func isWordLanguageRegex(word string) bool {
+	matcher := regexp.MustCompile("^0((1)+0)*$")
+	return matcher.MatchString(word)
+}
 
 func isWordLanguage(word string) bool {
 	runes := bytes.Runes([]byte(word))
