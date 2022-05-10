@@ -10,8 +10,9 @@ const (
 	ValidOne  = '1'
 )
 
+var matcher = regexp.MustCompile("^0((1)+0)*$")
+
 func isWordLanguageRegex(word string) bool {
-	matcher := regexp.MustCompile("^0((1)+0)*$")
 	return matcher.MatchString(word)
 }
 

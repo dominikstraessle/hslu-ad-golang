@@ -2,6 +2,7 @@ package formal_language
 
 import (
 	"fmt"
+	"strings"
 	"testing"
 )
 
@@ -123,4 +124,48 @@ func Test_isWordLanguageInvalidCasesRegex(t *testing.T) {
 			}
 		})
 	}
+}
+
+func BenchmarkIterative(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		isWordLanguage("0111010111010110111101011010")
+	}
+}
+func BenchmarkRecursive(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		isWordLanguageRecursive("0111010111010110111101011010")
+	}
+}
+func BenchmarkRegex(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		isWordLanguageRegex("0111010111010110111101011010")
+	}
+}
+
+var word = generate()
+
+func BenchmarkIterative_10000(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		isWordLanguage(word)
+	}
+}
+func BenchmarkRecursive_10000(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		isWordLanguageRecursive(word)
+	}
+}
+func BenchmarkRegex_10000(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		isWordLanguageRegex(word)
+	}
+}
+
+func generate() string {
+	b := strings.Builder{}
+	b.WriteString("0")
+	for i := 0; i < 10000; i++ {
+		b.WriteString("11101011101011011110101101")
+	}
+	b.WriteString("0")
+	return b.String()
 }
