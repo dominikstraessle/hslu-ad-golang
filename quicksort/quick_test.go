@@ -105,7 +105,7 @@ func Test_Quicksort(t *testing.T) {
 	}
 }
 
-func BenchmarkQuicksort500000(b *testing.B) {
+func BenchmarkQuicksort500_000(b *testing.B) {
 	// Aufgabe d) Laufzeiten sind immer ähnlich ca: 275335833 ns/op
 	// Aufgabe f) Laufzeiten optimiert -> neu sind: 177339872 ns/op
 	// Aufgabe 3.b) Laufzeiten optimiert -> neu sind: 114614168 ns/op -> quick insertion
@@ -118,8 +118,30 @@ func BenchmarkQuicksort500000(b *testing.B) {
 
 	// byte 0-255 verschiedene Zeichen sind möglich -> bei 500000 führt dies zu sehr vielen gleichen keys
 }
+
 func BenchmarkQuicksort250_000(b *testing.B) {
 	a := RandomBytes(250_000)
+	for i := 0; i < b.N; i++ {
+		Quicksort(a)
+	}
+}
+
+func BenchmarkQuicksort125_000(b *testing.B) {
+	a := RandomBytes(125_000)
+	for i := 0; i < b.N; i++ {
+		Quicksort(a)
+	}
+}
+
+func BenchmarkQuicksort62_500(b *testing.B) {
+	a := RandomBytes(62_500)
+	for i := 0; i < b.N; i++ {
+		Quicksort(a)
+	}
+}
+
+func BenchmarkQuicksort32_250(b *testing.B) {
+	a := RandomBytes(32_250)
 	for i := 0; i < b.N; i++ {
 		Quicksort(a)
 	}
