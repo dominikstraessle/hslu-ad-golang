@@ -17,19 +17,19 @@ func isWordLanguageRegex(word string) bool {
 }
 
 func isWordLanguage(word string) bool {
-	runes := bytes.Runes([]byte(word))
-	if len(runes) < 1 {
+	length := len(word) - 1
+	if length < 0 {
 		return false
 	}
-	if runes[0] != ValidZero {
-		return false
-	}
-	if runes[len(runes)-1] != ValidZero {
-		return false
-	}
-
 	previous := ValidOne
-	for _, c := range word {
+	for i, c := range word {
+		if i == 0 && c != ValidZero {
+			return false
+		}
+		if i >= length && c != ValidZero {
+			return false
+		}
+
 		if c != ValidZero && c != ValidOne {
 			return false
 		}

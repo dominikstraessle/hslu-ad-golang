@@ -6,6 +6,36 @@ import (
 	"testing"
 )
 
+func FuzzIsWordLanguage(f *testing.F) {
+	tests := []string{
+		"0",
+		"010",
+		"01110",
+		"0111010",
+		"0101110",
+		"010101010",
+		"0111010111010110111101011010",
+		"10",
+		"0101",
+		"00",
+		"x",
+		"",
+		"011x110",
+	}
+	for _, tt := range tests {
+		f.Add(tt)
+	}
+	f.Fuzz(func(t *testing.T, word string) {
+		gotIterative := isWordLanguage(word)
+		gotRecursive := isWordLanguageRecursive(word)
+		gotRegex := isWordLanguageRegex(word)
+
+		if gotIterative != gotRecursive || gotRecursive != gotRegex || gotIterative != gotRegex {
+			t.Errorf("%s got following results: iter(%v) recursive(%v) regex(%v)", word, gotIterative, gotRecursive, gotRegex)
+		}
+	})
+}
+
 func Test_isWordLanguageValidCases(t *testing.T) {
 	tests := []string{
 		"0",
