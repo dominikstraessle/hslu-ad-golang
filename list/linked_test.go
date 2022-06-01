@@ -6,6 +6,7 @@ import (
 )
 
 func TestLinkedList_HasNext(t *testing.T) {
+	next := &Node{}
 	type fields struct {
 		head   *Node
 		actual *Node
@@ -26,8 +27,10 @@ func TestLinkedList_HasNext(t *testing.T) {
 		{
 			name: "has no next",
 			fields: fields{
-				head:   nil,
-				actual: nil,
+				head: &Node{
+					nextNode: next,
+				},
+				actual: next,
 			},
 			want: false,
 		},
@@ -69,7 +72,7 @@ func TestLinkedList_Next(t *testing.T) {
 			name: "return second",
 			fields: fields{
 				head:   head,
-				actual: head.next(),
+				actual: head,
 			},
 			want: head.next(),
 		},
@@ -77,7 +80,7 @@ func TestLinkedList_Next(t *testing.T) {
 			name: "return third",
 			fields: fields{
 				head:   head,
-				actual: head.next().next(),
+				actual: head.next(),
 			},
 			want: head.next().next(),
 		},
@@ -106,9 +109,9 @@ func TestLinkedList_Next(t *testing.T) {
 func TestLinkedList_Add(t *testing.T) {
 	list := NewLinkedList("head")
 	want := Data("second")
-	list.Add("other")
-	list.Add("other2")
-	list.Add(want)
+	list.Insert("other")
+	list.Insert("other2")
+	list.Insert(want)
 	if !list.Contains(want) {
 		t.Logf("%v should contain element %v", list, want)
 	}
@@ -124,11 +127,11 @@ func TestLinkedList_Remove(t *testing.T) {
 	second := Data("second")
 	third := Data("third")
 	list := NewLinkedList(head)
-	list.Add(second)
-	list.Add("other data")
-	list.Add("other data")
-	list.Add("other data")
-	list.Add(third)
+	list.Insert(second)
+	list.Insert("other data")
+	list.Insert("other data")
+	list.Insert("other data")
+	list.Insert(third)
 
 	list.Remove(third)
 	if list.Contains(third) {
@@ -173,5 +176,35 @@ func TestLinkedList_Reset(t *testing.T) {
 				t.Logf("iterator should be nil after reset: %v", l)
 			}
 		})
+	}
+}
+
+func TestIterator(t *testing.T) {
+	list := NewLinkedList("6")
+	list.Insert("5")
+	list.Insert("4")
+	list.Insert("3")
+	list.Insert("2")
+	list.Insert("1")
+
+	want := []Data{
+		"1",
+		"2",
+		"3",
+		"4",
+		"5",
+		"6",
+	}
+
+	var got []Data
+
+	for list.HasNext() == true {
+		got = append(got, list.Next().Data())
+	}
+
+	for i, data := range want {
+		if got[i] != data {
+			t.Errorf("got %v but want %v", got, want)
+		}
 	}
 }

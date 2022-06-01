@@ -21,13 +21,10 @@ func (n *Node) Data() Data {
 	return n.data
 }
 
-type Linker interface {
-	Data() Data
-}
-
 type LinkedList struct {
-	head   *Node
-	actual *Node
+	head     *Node
+	actual   *Node
+	previous *Node
 }
 
 func NewLinkedList(data Data) List {
@@ -36,17 +33,18 @@ func NewLinkedList(data Data) List {
 			nextNode: nil,
 			data:     data,
 		},
-		actual: nil,
+		actual:   nil,
+		previous: nil,
 	}
 }
 
-func (l *LinkedList) Add(data Data) {
+func (l *LinkedList) Insert(data Data) {
 	node := &Node{
-		nextNode: l.head.next(),
+		nextNode: l.head,
 		data:     data,
 	}
 
-	l.head.nextNode = node
+	l.head = node
 }
 
 func (l *LinkedList) Remove(data Data) {
@@ -97,14 +95,14 @@ func recursiveContains(next *Node, data Data) *Node {
 
 func (l *LinkedList) Next() *Node {
 	if l.actual != nil {
-		result := l.actual
+		l.previous = l.actual
 		l.actual = l.actual.next()
-		return result
+		return l.actual
 	}
 
 	if l.head != nil {
 		l.actual = l.head
-		return l.head
+		return l.actual
 	}
 
 	panic(errors.New("no next element"))
@@ -115,13 +113,23 @@ func (l *LinkedList) Reset() {
 }
 
 func (l *LinkedList) HasNext() bool {
-	return l.actual != nil || l.head != nil
+	if l.actual != nil {
+		return l.actual.hasNext()
+	}
+
+	return l.head != nil
+}
+
+func (l *LinkedList) RemoveActual() {
+	l.previous.nextNode = l.actual.next()
+	l.actual = l.previous
 }
 
 type List interface {
-	Add(data Data)
+	Insert(data Data)
 	Remove(data Data)
 	Contains(data Data) bool
+	RemoveActual()
 	Next() *Node
 	HasNext() bool
 	Reset()
