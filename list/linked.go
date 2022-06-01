@@ -4,32 +4,32 @@ import "errors"
 
 type Data string
 
-type Node struct {
-	nextNode *Node
-	data     Data
+type Node[T comparable] struct {
+	nextNode *Node[T]
+	data     T
 }
 
-func (n *Node) next() *Node {
+func (n *Node[T]) next() *Node[T] {
 	return n.nextNode
 }
 
-func (n *Node) hasNext() bool {
+func (n *Node[T]) hasNext() bool {
 	return n.nextNode != nil
 }
 
-func (n *Node) Data() Data {
+func (n *Node[T]) Data() T {
 	return n.data
 }
 
-type LinkedList struct {
-	head     *Node
-	actual   *Node
-	previous *Node
+type LinkedList[T comparable] struct {
+	head     *Node[T]
+	actual   *Node[T]
+	previous *Node[T]
 }
 
-func NewLinkedList(data Data) List {
-	return &LinkedList{
-		head: &Node{
+func NewLinkedList[T comparable](data T) List[T] {
+	return &LinkedList[T]{
+		head: &Node[T]{
 			nextNode: nil,
 			data:     data,
 		},
@@ -38,8 +38,8 @@ func NewLinkedList(data Data) List {
 	}
 }
 
-func (l *LinkedList) Insert(data Data) {
-	node := &Node{
+func (l *LinkedList[T]) Insert(data T) {
+	node := &Node[T]{
 		nextNode: l.head,
 		data:     data,
 	}
@@ -47,7 +47,7 @@ func (l *LinkedList) Insert(data Data) {
 	l.head = node
 }
 
-func (l *LinkedList) Remove(data Data) {
+func (l *LinkedList[T]) Remove(data T) {
 	if l.head.hasNext() == false {
 		panic("cannot remove head")
 	}
@@ -63,7 +63,7 @@ func (l *LinkedList) Remove(data Data) {
 	prev.nextNode = actual.next()
 }
 
-func recursiveRemove(prev *Node, actual *Node, data Data) (*Node, *Node) {
+func recursiveRemove[T comparable](prev *Node[T], actual *Node[T], data T) (*Node[T], *Node[T]) {
 	if actual == nil {
 		return prev, nil
 	}
@@ -75,13 +75,13 @@ func recursiveRemove(prev *Node, actual *Node, data Data) (*Node, *Node) {
 	return recursiveRemove(actual, actual.next(), data)
 }
 
-func (l *LinkedList) Contains(data Data) bool {
-	gotNode := recursiveContains(l.head, data)
+func (l *LinkedList[T]) Contains(data T) bool {
+	gotNode := recursiveContains[T](l.head, data)
 
 	return gotNode != nil
 }
 
-func recursiveContains(next *Node, data Data) *Node {
+func recursiveContains[T comparable](next *Node[T], data T) *Node[T] {
 	if next.Data() == data {
 		return next
 	}
@@ -93,7 +93,7 @@ func recursiveContains(next *Node, data Data) *Node {
 	return recursiveContains(next.next(), data)
 }
 
-func (l *LinkedList) Next() *Node {
+func (l *LinkedList[T]) Next() *Node[T] {
 	if l.actual != nil {
 		l.previous = l.actual
 		l.actual = l.actual.next()
@@ -108,11 +108,11 @@ func (l *LinkedList) Next() *Node {
 	panic(errors.New("no next element"))
 }
 
-func (l *LinkedList) Reset() {
+func (l *LinkedList[T]) Reset() {
 	l.actual = nil
 }
 
-func (l *LinkedList) HasNext() bool {
+func (l *LinkedList[T]) HasNext() bool {
 	if l.actual != nil {
 		return l.actual.hasNext()
 	}
@@ -120,17 +120,17 @@ func (l *LinkedList) HasNext() bool {
 	return l.head != nil
 }
 
-func (l *LinkedList) RemoveActual() {
+func (l *LinkedList[T]) RemoveActual() {
 	l.previous.nextNode = l.actual.next()
 	l.actual = l.previous
 }
 
-type List interface {
-	Insert(data Data)
-	Remove(data Data)
-	Contains(data Data) bool
+type List[T comparable] interface {
+	Insert(data T)
+	Remove(data T)
+	Contains(data T) bool
 	RemoveActual()
-	Next() *Node
+	Next() *Node[T]
 	HasNext() bool
 	Reset()
 }

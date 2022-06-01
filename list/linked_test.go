@@ -6,10 +6,10 @@ import (
 )
 
 func TestLinkedList_HasNext(t *testing.T) {
-	next := &Node{}
+	next := &Node[Data]{}
 	type fields struct {
-		head   *Node
-		actual *Node
+		head   *Node[Data]
+		actual *Node[Data]
 	}
 	tests := []struct {
 		name   string
@@ -19,7 +19,7 @@ func TestLinkedList_HasNext(t *testing.T) {
 		{
 			name: "has next",
 			fields: fields{
-				head:   &Node{},
+				head:   &Node[Data]{},
 				actual: nil,
 			},
 			want: true,
@@ -27,7 +27,7 @@ func TestLinkedList_HasNext(t *testing.T) {
 		{
 			name: "has no next",
 			fields: fields{
-				head: &Node{
+				head: &Node[Data]{
 					nextNode: next,
 				},
 				actual: next,
@@ -37,7 +37,7 @@ func TestLinkedList_HasNext(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			l := &LinkedList{
+			l := &LinkedList[Data]{
 				head:   tt.fields.head,
 				actual: tt.fields.actual,
 			}
@@ -49,24 +49,24 @@ func TestLinkedList_HasNext(t *testing.T) {
 }
 
 func TestLinkedList_Next(t *testing.T) {
-	head := &Node{
+	head := &Node[Data]{
 		data: "head",
-		nextNode: &Node{
+		nextNode: &Node[Data]{
 			data: "second",
-			nextNode: &Node{
+			nextNode: &Node[Data]{
 				data: "third",
 			},
 		},
 	}
 
 	type fields struct {
-		head   *Node
-		actual *Node
+		head   *Node[Data]
+		actual *Node[Data]
 	}
 	tests := []struct {
 		name   string
 		fields fields
-		want   *Node
+		want   *Node[Data]
 	}{
 		{
 			name: "return second",
@@ -95,7 +95,7 @@ func TestLinkedList_Next(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			l := &LinkedList{
+			l := &LinkedList[Data]{
 				head:   tt.fields.head,
 				actual: tt.fields.actual,
 			}
@@ -107,7 +107,7 @@ func TestLinkedList_Next(t *testing.T) {
 }
 
 func TestLinkedList_Add(t *testing.T) {
-	list := NewLinkedList("head")
+	list := NewLinkedList[Data]("head")
 	want := Data("second")
 	list.Insert("other")
 	list.Insert("other2")
@@ -150,8 +150,8 @@ func TestLinkedList_Remove(t *testing.T) {
 
 func TestLinkedList_Reset(t *testing.T) {
 	type fields struct {
-		head   *Node
-		actual *Node
+		head   *Node[Data]
+		actual *Node[Data]
 	}
 	tests := []struct {
 		name   string
@@ -160,14 +160,14 @@ func TestLinkedList_Reset(t *testing.T) {
 		{
 			name: "reset",
 			fields: fields{
-				head:   &Node{},
-				actual: &Node{},
+				head:   &Node[Data]{},
+				actual: &Node[Data]{},
 			},
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			l := &LinkedList{
+			l := &LinkedList[Data]{
 				head:   tt.fields.head,
 				actual: tt.fields.actual,
 			}
@@ -180,7 +180,7 @@ func TestLinkedList_Reset(t *testing.T) {
 }
 
 func TestIterator(t *testing.T) {
-	list := NewLinkedList("6")
+	list := NewLinkedList[Data]("6")
 	list.Insert("5")
 	list.Insert("4")
 	list.Insert("3")
