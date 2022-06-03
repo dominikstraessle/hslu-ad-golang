@@ -27,6 +27,8 @@ func (a *ArrayRingBuffer[T]) Offer(t *T) error {
 	a.head = increaseIndex(a.head)
 	return nil
 }
+
+//increaseIndex by one but respect the ring buffers underlying array size
 func increaseIndex(i uint) uint {
 	return (i + 1) % SIZE
 }
