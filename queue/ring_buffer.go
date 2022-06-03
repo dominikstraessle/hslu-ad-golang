@@ -24,8 +24,11 @@ func (a *ArrayRingBuffer[T]) Offer(t *T) error {
 		return errors.New("failed to offer to queue: queue is full")
 	}
 	a.data[a.head] = t
-	a.head = (a.head + 1) % SIZE
+	a.head = increaseIndex(a.head)
 	return nil
+}
+func increaseIndex(i uint) uint {
+	return (i + 1) % SIZE
 }
 
 func (a *ArrayRingBuffer[T]) Poll() (*T, error) {
@@ -34,6 +37,6 @@ func (a *ArrayRingBuffer[T]) Poll() (*T, error) {
 	}
 	t := a.data[a.tail]
 	a.data[a.tail] = nil
-	a.tail = (a.tail + 1) % SIZE
+	a.tail = increaseIndex(a.tail)
 	return t, nil
 }
