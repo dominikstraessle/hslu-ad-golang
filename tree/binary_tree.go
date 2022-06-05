@@ -55,15 +55,9 @@ func (b *BinaryTree[T]) Remove(t T) {
 		b.root = nil
 		return
 	}
+
 	if b.root.value == t {
-		if b.root.left != nil && b.root.right != nil {
-			b.root.value = getLeftMostValue(b.root, b.root.right, t)
-			remove(b.root, b.root.right, t)
-		} else if b.root.left != nil {
-			b.root = b.root.left
-		} else {
-			b.root = b.root.right
-		}
+		b.switchAndRemoveRoot(t)
 	} else if t < b.root.value {
 		remove(b.root, b.root.left, t)
 	} else {
@@ -71,39 +65,85 @@ func (b *BinaryTree[T]) Remove(t T) {
 	}
 }
 
+func (b *BinaryTree[T]) switchAndRemoveRoot(t T) {
+	// both child nodes exist -> switch and remove
+	if b.root.left != nil && b.root.right != nil {
+		b.root.value = getLeftMostValue(b.root, b.root.right, t)
+		remove(b.root, b.root.right, t)
+		return
+	}
+
+	// replace by left child node
+	if b.root.left != nil {
+		b.root = b.root.left
+		return
+	}
+
+	// replace by right child node
+	b.root = b.root.right
+}
+
 func remove[T ad.Ordered](parent *Node[T], n *Node[T], t T) {
 	if n == nil {
 		return
 	}
 
-	if n.value == t {
-		if n.left != nil && n.right == nil {
-			if parent.left == n {
-				parent.left = n.left
-			} else {
-				parent.right = n.left
-			}
-		} else if n.right != nil && n.left == nil {
-			if parent.left == n {
-				parent.left = n.right
-			} else {
-				parent.right = n.right
-			}
-		} else if n.left != nil && n.right != nil {
-			n.value = getLeftMostValue(n, n.right, t)
-			remove(n, n.right, t)
-		} else {
-			if parent.left == n {
-				parent.left = nil
-			} else {
-				parent.right = nil
-			}
-		}
-	} else if t < n.value {
+	// search and remove on the left child node
+	if t < n.value {
 		remove(n, n.left, t)
-	} else {
-		remove(n, n.right, t)
+		return
 	}
+
+	// search and remove on the right child node
+	if t > n.value {
+		remove(n, n.right, t)
+		return
+	}
+
+	// the actual node should be replaced by the left child node
+	if n.left != nil && n.right == nil {
+		switchToLeftChildNode(parent, n)
+		return
+	}
+
+	// the actual node should be replaced by the right child node
+	if n.right != nil && n.left == nil {
+		switchToRightChildNode(parent, n)
+		return
+	}
+
+	// the node has two child nodes and therefore must be replaced by the lowest right-hand side value
+	switchAndRemoveNode(parent, n, t)
+}
+
+func switchToRightChildNode[T ad.Ordered](parent *Node[T], n *Node[T]) {
+	if parent.left == n {
+		parent.left = n.right
+	} else {
+		parent.right = n.right
+	}
+}
+
+func switchToLeftChildNode[T ad.Ordered](parent *Node[T], n *Node[T]) {
+	if parent.left == n {
+		parent.left = n.left
+	} else {
+		parent.right = n.left
+	}
+}
+
+func switchAndRemoveNode[T ad.Ordered](parent *Node[T], n *Node[T], t T) {
+	if n.left != nil && n.right != nil {
+		n.value = getLeftMostValue(n, n.right, t)
+		remove(n, n.right, t)
+		return
+	}
+	if parent.left == n {
+		parent.left = nil
+		return
+	}
+
+	parent.right = nil
 }
 
 func getLeftMostValue[T ad.Ordered](parent *Node[T], left *Node[T], t T) T {
