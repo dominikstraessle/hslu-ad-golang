@@ -100,6 +100,8 @@ func remove[T ad.Ordered](parent *Node[T], n *Node[T], t T) {
 		return
 	}
 
+	// at this place -> n.value == t
+
 	// the actual node should be replaced by the left child node
 	if n.left != nil && n.right == nil {
 		switchToLeftChildNode(parent, n)
@@ -133,11 +135,14 @@ func switchToLeftChildNode[T ad.Ordered](parent *Node[T], n *Node[T]) {
 }
 
 func switchAndRemoveNode[T ad.Ordered](parent *Node[T], n *Node[T], t T) {
+	// both child nodes exist -> switch and remove
 	if n.left != nil && n.right != nil {
 		n.value = getLeftMostValue(n, n.right, t)
 		remove(n, n.right, t)
 		return
 	}
+
+	// actual node has no child nodes and can be removed
 	if parent.left == n {
 		parent.left = nil
 		return
