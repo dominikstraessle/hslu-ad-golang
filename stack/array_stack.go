@@ -1,3 +1,4 @@
+//Package stack -> Week 02
 package stack
 
 import "errors"

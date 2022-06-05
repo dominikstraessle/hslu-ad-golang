@@ -1,3 +1,4 @@
+//Package euclidian -> Week 01
 package euclidian
 
 func ggt(a, b int) int {

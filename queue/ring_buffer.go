@@ -1,3 +1,4 @@
+//Package queue -> Week 02
 package queue
 
 import "errors"

@@ -1,3 +1,4 @@
+//Package list -> Week 02
 package list
 
 import "errors"

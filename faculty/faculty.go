@@ -1,3 +1,4 @@
+//Package faculty -> Week 01
 package faculty
 
 func factorialIter(n uint) uint {
