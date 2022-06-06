@@ -49,11 +49,12 @@ func (l *LinkedList[T]) Insert(data T) {
 }
 
 func (l *LinkedList[T]) Remove(data T) {
-	if l.head.hasNext() == false {
-		panic("cannot remove head")
-	}
 	if l.head.Data() == data {
-		l.head = l.head.next()
+		if l.head.hasNext() {
+			l.head = l.head.next()
+		} else {
+			l.head = &Node[T]{}
+		}
 	}
 
 	prev, actual := recursiveRemove(l.head, l.head.next(), data)
@@ -122,6 +123,9 @@ func (l *LinkedList[T]) HasNext() bool {
 }
 
 func (l *LinkedList[T]) RemoveActual() {
+	if l.previous == nil {
+		return
+	}
 	l.previous.nextNode = l.actual.next()
 	l.actual = l.previous
 }

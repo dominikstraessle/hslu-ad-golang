@@ -8,7 +8,7 @@ import (
 type Tree[T ad.Ordered] interface {
 	Insert(T)
 	Remove(T)
-	Search(T) bool
+	Contains(T) bool
 	Inorder() []T
 }
 
