@@ -6,6 +6,12 @@ import (
 	"time"
 )
 
+type Result struct {
+	body   string
+	url    string
+	status bool
+}
+
 type Fetcher interface {
 	// Fetch returns the body of URL and
 	// a slice of URLs found on that page.
@@ -30,22 +36,22 @@ func Crawl(url string, depth int, fetcher Fetcher) {
 	return
 }
 
-func ConcurrentCrawl(url string, depth int, fetcher Fetcher) []string {
-	ch := make(chan string)
+func ConcurrentCrawl(url string, depth int, fetcher Fetcher) []*Result {
+	ch := make(chan *Result)
 
 	// start the crawling with a given super channel
 	go concurrentCrawl(url, depth, fetcher, ch)
 
 	// receive all values until channel is closed
 	// append all values to string slice
-	var urls []string
+	var urls []*Result
 	for u := range ch {
 		urls = append(urls, u)
 	}
 	return urls
 }
 
-func concurrentCrawl(url string, depth int, fetcher Fetcher, superChan chan string) {
+func concurrentCrawl(url string, depth int, fetcher Fetcher, superChan chan *Result) {
 	// no depth -> immediate return
 	if depth <= 0 {
 		close(superChan)
@@ -56,9 +62,15 @@ func concurrentCrawl(url string, depth int, fetcher Fetcher, superChan chan stri
 	cache.Store(url, nil)
 
 	// fetch the given URL
-	_, urls, err := fetcher.Fetch(url)
+	body, urls, err := fetcher.Fetch(url)
 	if err != nil {
-		fmt.Println(err)
+		// send the current url to the super channel
+		superChan <- &Result{
+			body:   body,
+			url:    url,
+			status: false,
+		}
+
 		// close the current channel on error
 		// indicates that this goroutine is finished with fetching
 		close(superChan)
@@ -66,15 +78,19 @@ func concurrentCrawl(url string, depth int, fetcher Fetcher, superChan chan stri
 	}
 
 	// send the current url to the super channel
-	superChan <- url
+	superChan <- &Result{
+		body:   body,
+		url:    url,
+		status: true,
+	}
 
 	// for each sub url -> create a new sub channel and fetch all sub url via a recursive concurrent method call
-	var subChannels []chan string
+	var subChannels []chan *Result
 	for _, u := range urls {
 		if _, ok := cache.Load(u); ok {
 			continue
 		}
-		subChan := make(chan string)
+		subChan := make(chan *Result)
 		go concurrentCrawl(u, depth-1, fetcher, subChan)
 		subChannels = append(subChannels, subChan)
 	}
