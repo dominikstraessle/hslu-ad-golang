@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"sync"
 	"time"
 )
 
@@ -14,9 +15,6 @@ type Fetcher interface {
 // Crawl uses fetcher to recursively crawl
 // pages starting with url, to a maximum of depth.
 func Crawl(url string, depth int, fetcher Fetcher) {
-	// TODO: Fetch URLs in parallel.
-	// TODO: Don't fetch the same URL twice.
-	// This implementation doesn't do either:
 	if depth <= 0 {
 		return
 	}
@@ -54,6 +52,9 @@ func concurrentCrawl(url string, depth int, fetcher Fetcher, superChan chan stri
 		return
 	}
 
+	// store the url in the cache -> only fetch every url once
+	cache.Store(url, nil)
+
 	// fetch the given URL
 	_, urls, err := fetcher.Fetch(url)
 	if err != nil {
@@ -70,6 +71,9 @@ func concurrentCrawl(url string, depth int, fetcher Fetcher, superChan chan stri
 	// for each sub url -> create a new sub channel and fetch all sub url via a recursive concurrent method call
 	var subChannels []chan string
 	for _, u := range urls {
+		if _, ok := cache.Load(u); ok {
+			continue
+		}
 		subChan := make(chan string)
 		go concurrentCrawl(u, depth-1, fetcher, subChan)
 		subChannels = append(subChannels, subChan)
@@ -86,8 +90,10 @@ func concurrentCrawl(url string, depth int, fetcher Fetcher, superChan chan stri
 	close(superChan)
 }
 
+var cache sync.Map
+
 func main() {
-	//Crawl("https://golang.org/", 4, fetcher)
+	Crawl("https://golang.org/", 4, fetcher)
 	results := ConcurrentCrawl("https://golang.org/", 4, fetcher)
 	for _, result := range results {
 		fmt.Println(result)
