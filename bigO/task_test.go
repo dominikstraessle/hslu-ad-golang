@@ -1,4 +1,4 @@
-package task
+package bigO
 
 import "testing"
 
@@ -11,13 +11,13 @@ func Test_task(t *testing.T) {
 		args args
 	}{
 		{
-			name: "task",
+			name: "bigO",
 			args: args{
 				n: 1,
 			},
 		},
 		{
-			name: "task",
+			name: "bigO",
 			args: args{
 				n: 10,
 			},
