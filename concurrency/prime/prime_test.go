@@ -3,11 +3,11 @@ package prime
 import "testing"
 
 func Test_prime(t *testing.T) {
-	primes(100)
+	primes(10)
 }
 
 func Test_primesConcurrent(t *testing.T) {
-	primesConcurrent(100)
+	primesConcurrent(10)
 }
 
 func Benchmark_prime(b *testing.B) {
