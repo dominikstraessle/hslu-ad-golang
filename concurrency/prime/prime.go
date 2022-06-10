@@ -61,6 +61,7 @@ func primes(rounds int) {
 	}
 }
 
+//getMaxRandomNumber from https://stackoverflow.com/a/45428754/7130107
 func getMaxRandomNumber() *big.Int {
 	//Max random value, a 130-bits integer, i.e 2^130 - 1
 	max := new(big.Int)
