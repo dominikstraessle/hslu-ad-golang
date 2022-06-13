@@ -57,7 +57,7 @@ func quicksort[T ad.Ordered](a []T, left, right, threshold int) []T {
 }
 
 func insertionSort[T ad.Ordered](a []T, lower, upper, margin int) {
-	sorted := sort.DirectInsert(a[lower:upper])
+	sorted := sort.InsertionSort(a[lower:upper])
 	for i, newElement := range sorted {
 		a[i+margin] = newElement
 	}
