@@ -68,8 +68,8 @@ func BenchmarkDirectInsertOptimistic(b *testing.B) {
 
 func BenchmarkDirectInsertPessimistic(b *testing.B) {
 	var z []int
-	for i := 0; i < 10000; i++ {
-		z = append(z, 10000-i)
+	for i := 10000; i > 0; i-- {
+		z = append(z, i)
 	}
 	for i := 0; i < b.N; i++ {
 		DirectInsert(z)
