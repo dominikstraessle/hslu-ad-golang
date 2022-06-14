@@ -266,8 +266,8 @@ func BenchmarkShellSortBigSlice(b *testing.B) {
 
 func BenchmarkShellSort(b *testing.B) {
 	var x []int
-	for i := 0; i < 100_000; i++ {
-		x = append(x, rand.Intn(1_000_000))
+	for i := 0; i < 10000; i++ {
+		x = append(x, rand.Intn(10000))
 	}
 	for i := 0; i < b.N; i++ {
 		ShellSort(x)
@@ -285,6 +285,7 @@ func BenchmarkShellSortOptimistic(b *testing.B) {
 }
 
 func BenchmarkQuicksortBigSlice(b *testing.B) {
+	b.Skip()
 	var x []int
 	for i := 0; i < 100_000; i++ {
 		x = append(x, rand.Intn(1_000_000))
@@ -296,8 +297,8 @@ func BenchmarkQuicksortBigSlice(b *testing.B) {
 
 func BenchmarkQuicksort(b *testing.B) {
 	var x []int
-	for i := 0; i < 100_000; i++ {
-		x = append(x, rand.Intn(1_000_000))
+	for i := 0; i < 10000; i++ {
+		x = append(x, rand.Intn(10000))
 	}
 	for i := 0; i < b.N; i++ {
 		Quicksort(x)

@@ -14,17 +14,17 @@ func Quicksort[T ad.Ordered](a []T) []T {
 }
 
 func quicksort[T ad.Ordered](arr []T, left, right, threshold int) []T {
-	up := left        // left border
-	down := right - 1 // right border without pivot
-	t := arr[right]   // right most element as pivot
+	up := left          // left border
+	down := right - 1   // right border without pivot
+	pivot := arr[right] // right most element as pivot
 	allChecked := false
 
 	for allChecked == false {
-		for arr[up] < t {
+		for arr[up] < pivot {
 			up++ // search greater (>) element from the left side
 		}
 
-		for (arr[down] > t) && (down > up) {
+		for (arr[down] > pivot) && (down > up) {
 			down-- // search lower (<) element from the right side
 		}
 
