@@ -1,0 +1,21 @@
+BenchmarkQuicksort500_000
+BenchmarkQuicksort500_000-8             	      42	 178251867 ns/op
+BenchmarkQuicksort250_000
+BenchmarkQuicksort250_000-8             	      99	  94006478 ns/op
+BenchmarkConcurrentQuicksort250_000
+BenchmarkConcurrentQuicksort250_000-8   	     100	 114640322 ns/op
+BenchmarkQuicksort125_000
+BenchmarkQuicksort125_000-8             	     100	  38818754 ns/op
+BenchmarkConcurrentQuicksort125_000
+BenchmarkConcurrentQuicksort125_000-8   	     100	  51524083 ns/op
+BenchmarkQuicksort62_500
+BenchmarkQuicksort62_500-8              	     100	  17830951 ns/op
+BenchmarkConcurrentQuicksort62_500
+BenchmarkConcurrentQuicksort62_500-8    	     100	  29804199 ns/op
+BenchmarkQuicksort32_250
+BenchmarkQuicksort32_250-8              	     159	   7506839 ns/op
+BenchmarkConcurrentQuicksort32_250
+BenchmarkConcurrentQuicksort32_250-8    	     100	  13735435 ns/op
+BenchmarkQuicksort500
+BenchmarkQuicksort500-8                 	   45901	     28695 ns/op
+BenchmarkConcurrentQuicksort500

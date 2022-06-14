@@ -325,6 +325,47 @@ func BenchmarkQuicksortPessimistic(b *testing.B) {
 	}
 }
 
+func BenchmarkConcurrentQuicksortBigSlice(b *testing.B) {
+	b.Skip()
+	var x []int
+	for i := 0; i < 100_000; i++ {
+		x = append(x, rand.Intn(1_000_000))
+	}
+	for i := 0; i < b.N; i++ {
+		ConcurrentQuicksort(x)
+	}
+}
+
+func BenchmarkConcurrentQuicksort(b *testing.B) {
+	var x []int
+	for i := 0; i < 10000; i++ {
+		x = append(x, rand.Intn(10000))
+	}
+	for i := 0; i < b.N; i++ {
+		ConcurrentQuicksort(x)
+	}
+}
+
+func BenchmarkConcurrentQuicksortOptimistic(b *testing.B) {
+	var y []int
+	for i := 0; i < 10000; i++ {
+		y = append(y, i)
+	}
+	for i := 0; i < b.N; i++ {
+		ConcurrentQuicksort(y)
+	}
+}
+
+func BenchmarkConcurrentQuicksortPessimistic(b *testing.B) {
+	var z []int
+	for i := 10000; i > 0; i-- {
+		z = append(z, i)
+	}
+	for i := 0; i < b.N; i++ {
+		ConcurrentQuicksort(z)
+	}
+}
+
 func BenchmarkSelectionSort(b *testing.B) {
 	var x []int
 	for i := 0; i < 10000; i++ {
