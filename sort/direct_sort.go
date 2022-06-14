@@ -8,9 +8,14 @@ func InsertionSort[T ad.Ordered](arr []T) []T {
 	for currentIndex := 1; currentIndex < len(arr); currentIndex++ {
 		temporary := arr[currentIndex]
 		iterator := currentIndex
+
+		// iterate over the elements in the sorted space
+		// if current element is smaller -> switch position
+		// repeat until the element on the left is smaller than the current element
 		for ; iterator > 0 && arr[iterator-1] > temporary; iterator-- {
 			arr[iterator] = arr[iterator-1]
 		}
+
 		arr[iterator] = temporary
 	}
 	return arr
@@ -21,12 +26,18 @@ func SelectionSort[T ad.Ordered](arr []T) []T {
 		temp := arr[i]
 		smallestIndex := 0
 		smallestElement := temp
+
+		// search for the smallest element in the slice
+		// only search the unordered part of the slice -> j := i
 		for j := i; j < len(arr); j++ {
 			if arr[j] < smallestElement {
+				// save the index and element of the smallest element
 				smallestIndex = j
 				smallestElement = arr[j]
 			}
 		}
+
+		// if the found element is smaller than the current element -> switch positions
 		if arr[i] > smallestElement {
 			arr[i], arr[smallestIndex] = arr[smallestIndex], arr[i]
 		}
