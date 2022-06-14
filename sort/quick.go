@@ -16,9 +16,9 @@ func Quicksort[T ad.Ordered](a []T) []T {
 }
 
 func quicksort[T ad.Ordered](arr []T, left, right, threshold int) []T {
-	up := left          // left border
-	down := right - 1   // right border without pivot
-	pivot := arr[right] // right most element as pivot
+	up := left        // left border
+	down := right - 1 // right border without pivot
+	pivot := medianOfThree(arr, left, right)
 	allChecked := false
 
 	for allChecked == false {
@@ -73,9 +73,10 @@ func ConcurrentQuicksort[T ad.Ordered](a []T) []T {
 }
 
 func concurrentQuicksort[T ad.Ordered](arr []T, left, right, threshold int, quitChannel chan bool) {
-	up := left          // left border
-	down := right - 1   // right border without pivot
-	pivot := arr[right] // right most element as pivot
+	up := left        // left border
+	down := right - 1 // right border without pivot
+	pivot := medianOfThree(arr, left, right)
+
 	allChecked := false
 
 	for allChecked == false {
@@ -129,6 +130,18 @@ func concurrentQuicksort[T ad.Ordered](arr []T, left, right, threshold int, quit
 	}
 
 	quitChannel <- true
+}
+
+func medianOfThree[T ad.Ordered](arr []T, left int, right int) T {
+	// median of three
+	middle := right / 2
+	if arr[left] < arr[right] && arr[left] < arr[middle] {
+		arr[right], arr[left] = arr[left], arr[right]
+	} else if arr[middle] < arr[left] && arr[middle] < arr[right] {
+		arr[right], arr[middle] = arr[middle], arr[right]
+	}
+	pivot := arr[right] // right most element as pivot
+	return pivot
 }
 
 func RandomBytes(length int) []byte {
