@@ -135,13 +135,12 @@ func concurrentQuicksort[T ad.Ordered](arr []T, left, right, threshold int, quit
 func medianOfThree[T ad.Ordered](arr []T, left int, right int) T {
 	// median of three
 	middle := right / 2
-	if arr[left] < arr[right] && arr[left] < arr[middle] {
+	if arr[left] < arr[right] && arr[left] > arr[middle] {
 		arr[right], arr[left] = arr[left], arr[right]
-	} else if arr[middle] < arr[left] && arr[middle] < arr[right] {
+	} else if arr[middle] < arr[left] && arr[middle] > arr[right] {
 		arr[right], arr[middle] = arr[middle], arr[right]
 	}
-	pivot := arr[right] // right most element as pivot
-	return pivot
+	return arr[right] // right most element as pivot
 }
 
 func RandomBytes(length int) []byte {

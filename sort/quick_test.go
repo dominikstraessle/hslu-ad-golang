@@ -1,6 +1,7 @@
 package sort
 
 import (
+	"github.com/stretchr/testify/assert"
 	"reflect"
 	"testing"
 )
@@ -46,9 +47,7 @@ func TestQuicksort(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := Quicksort(tt.args.a); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("Quicksort() = %v, want %v", got, tt.want)
-			}
+			assert.Equal(t, tt.want, Quicksort(tt.args.a))
 		})
 	}
 }
@@ -94,9 +93,7 @@ func TestConcurrentQuicksort(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := ConcurrentQuicksort(tt.args.a); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("ConcurrentQuicksort() = %v, want %v", got, tt.want)
-			}
+			assert.Equal(t, tt.want, ConcurrentQuicksort(tt.args.a))
 		})
 	}
 }
