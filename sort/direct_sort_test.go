@@ -284,13 +284,43 @@ func BenchmarkShellSortOptimistic(b *testing.B) {
 	}
 }
 
-func BenchmarkShellSortPessimistic(b *testing.B) {
+func BenchmarkQuicksortBigSlice(b *testing.B) {
+	var x []int
+	for i := 0; i < 100_000; i++ {
+		x = append(x, rand.Intn(1_000_000))
+	}
+	for i := 0; i < b.N; i++ {
+		Quicksort(x)
+	}
+}
+
+func BenchmarkQuicksort(b *testing.B) {
+	var x []int
+	for i := 0; i < 100_000; i++ {
+		x = append(x, rand.Intn(1_000_000))
+	}
+	for i := 0; i < b.N; i++ {
+		Quicksort(x)
+	}
+}
+
+func BenchmarkQuicksortOptimistic(b *testing.B) {
+	var y []int
+	for i := 0; i < 10000; i++ {
+		y = append(y, i)
+	}
+	for i := 0; i < b.N; i++ {
+		Quicksort(y)
+	}
+}
+
+func BenchmarkQuicksortPessimistic(b *testing.B) {
 	var z []int
 	for i := 10000; i > 0; i-- {
 		z = append(z, i)
 	}
 	for i := 0; i < b.N; i++ {
-		ShellSort(z)
+		Quicksort(z)
 	}
 }
 
