@@ -2,6 +2,7 @@ package sort
 
 import (
 	"ad"
+	"math"
 )
 
 func InsertionSort[T ad.Ordered](arr []T) []T {
@@ -19,6 +20,42 @@ func InsertionSort[T ad.Ordered](arr []T) []T {
 		arr[iterator] = temporary
 	}
 	return arr
+}
+
+func ShellSort[T ad.Ordered](arr []T) []T {
+	// only use gaps for slices greater than 10_000
+	if len(arr) < 10_000 {
+		return InsertionSort(arr)
+	}
+
+	gaps := getGaps(len(arr))
+	for _, gap := range gaps {
+		for currentIndex := gap; currentIndex < len(arr); currentIndex++ {
+			temporary := arr[currentIndex]
+			iterator := currentIndex
+
+			// iterate over the elements in the sorted space
+			// if current element is smaller -> switch position
+			// repeat until the element on the left is smaller than the current element
+			for ; iterator-gap >= 0 && arr[iterator-gap] > temporary; iterator -= gap {
+				arr[iterator] = arr[iterator-gap]
+			}
+
+			arr[iterator] = temporary
+		}
+	}
+	return arr
+}
+
+//getGaps returns gap sizes for the hibbard sequence
+func getGaps(sliceSize int) []int {
+	nGaps := int(math.Ceil(float64(sliceSize / 10_000)))
+	gaps := make([]int, nGaps)
+	for i := nGaps; i > 3; i-- {
+		gaps = append(gaps, 2^i-1)
+	}
+	gaps = append(gaps, 1)
+	return gaps
 }
 
 func SelectionSort[T ad.Ordered](arr []T) []T {

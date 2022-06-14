@@ -116,6 +116,53 @@ func TestSelectionSort(t *testing.T) {
 		})
 	}
 }
+func TestShellSort(t *testing.T) {
+	x, y := getRandomizedIntSliceAndSortedSolution()
+	type args struct {
+		a []int
+	}
+	tests := []struct {
+		name string
+		args args
+		want []int
+	}{
+		{
+			name: "inorder",
+			args: args{
+				a: []int{0, 1, 2, 3, 4, 5},
+			},
+			want: []int{0, 1, 2, 3, 4, 5},
+		},
+		{
+			name: "reverse",
+			args: args{
+				a: []int{5, 4, 3, 2, 1, 0},
+			},
+			want: []int{0, 1, 2, 3, 4, 5},
+		},
+		{
+			name: "sort",
+			args: args{
+				a: []int{2, 3, 1, 4, 5, 0},
+			},
+			want: []int{0, 1, 2, 3, 4, 5},
+		},
+		{
+			name: "big slice",
+			args: args{
+				a: x,
+			},
+			want: y,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := ShellSort(tt.args.a); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("ShellSort() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
 
 func TestBubbleSort(t *testing.T) {
 	x, y := getRandomizedIntSliceAndSortedSolution()
@@ -175,6 +222,17 @@ func BenchmarkInsertionSort(b *testing.B) {
 	}
 }
 
+//BenchmarkInsertionSortBigSlice shows the performance loss for big slices compared to shell sort
+func BenchmarkInsertionSortBigSlice(b *testing.B) {
+	var x []int
+	for i := 0; i < 100_000; i++ {
+		x = append(x, rand.Intn(1_000_000))
+	}
+	for i := 0; i < b.N; i++ {
+		InsertionSort(x)
+	}
+}
+
 func BenchmarkInsertionSortOptimistic(b *testing.B) {
 	var y []int
 	for i := 0; i < 10000; i++ {
@@ -192,6 +250,47 @@ func BenchmarkInsertionSortPessimistic(b *testing.B) {
 	}
 	for i := 0; i < b.N; i++ {
 		InsertionSort(z)
+	}
+}
+
+//BenchmarkShellSortBigSlice shows the performance gain for big slices compared to insertion sort
+func BenchmarkShellSortBigSlice(b *testing.B) {
+	var x []int
+	for i := 0; i < 100_000; i++ {
+		x = append(x, rand.Intn(1_000_000))
+	}
+	for i := 0; i < b.N; i++ {
+		ShellSort(x)
+	}
+}
+
+func BenchmarkShellSort(b *testing.B) {
+	var x []int
+	for i := 0; i < 100_000; i++ {
+		x = append(x, rand.Intn(1_000_000))
+	}
+	for i := 0; i < b.N; i++ {
+		ShellSort(x)
+	}
+}
+
+func BenchmarkShellSortOptimistic(b *testing.B) {
+	var y []int
+	for i := 0; i < 10000; i++ {
+		y = append(y, i)
+	}
+	for i := 0; i < b.N; i++ {
+		ShellSort(y)
+	}
+}
+
+func BenchmarkShellSortPessimistic(b *testing.B) {
+	var z []int
+	for i := 10000; i > 0; i-- {
+		z = append(z, i)
+	}
+	for i := 0; i < b.N; i++ {
+		ShellSort(z)
 	}
 }
 
