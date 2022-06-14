@@ -1,6 +1,11 @@
 package sort
 
-import "ad"
+import (
+	"ad"
+	"sync"
+)
+
+const ConcurrentThreshold = 500
 
 func Mergesort[T ad.Ordered](arr []T) []T {
 	b := make([]T, len(arr)+1)
@@ -40,40 +45,35 @@ func mergesort[T ad.Ordered](arr []T, left int, right int, b []T) []T {
 func ConcurrentMergesort[T ad.Ordered](arr []T) []T {
 	b := make([]T, len(arr)+1)
 
-	wait := make(chan bool, 1)
-	concurrentMergesort(arr, 0, len(arr)-1, b, wait)
-	<-wait
+	wg := &sync.WaitGroup{}
+	wg.Add(1)
+	concurrentMergesort(arr, 0, len(arr)-1, b, wg)
+	wg.Wait()
 	return arr
 }
 
-func concurrentMergesort[T ad.Ordered](arr []T, left int, right int, b []T, quit chan bool) {
+func concurrentMergesort[T ad.Ordered](arr []T, left int, right int, b []T, quit *sync.WaitGroup) {
 	var i, j, k, m int
 	if right > left {
 		m = (right + left) / 2
 
-		wait := make(chan bool, 2)
-		numberOfRoutines := 0
+		wg := &sync.WaitGroup{}
 
-		if m-left > 500 {
-			go concurrentMergesort(arr, left, m, b, wait)
-			numberOfRoutines++
+		if m-left > ConcurrentThreshold {
+			wg.Add(1)
+			go concurrentMergesort(arr, left, m, b, wg)
 		} else {
 			mergesort(arr, left, m, b)
 		}
 
-		if right-m+1 > 500 {
-			go concurrentMergesort(arr, m+1, right, b, wait)
-			numberOfRoutines++
+		if right-m+1 > ConcurrentThreshold {
+			wg.Add(1)
+			go concurrentMergesort(arr, m+1, right, b, wg)
 		} else {
 			mergesort(arr, m+1, right, b)
 		}
 
-		for n := 0; n < numberOfRoutines; n++ {
-			select {
-			case <-wait:
-				continue
-			}
-		}
+		wg.Wait()
 
 		for i = left; i <= m; i++ {
 			b[i] = arr[i]
@@ -94,5 +94,5 @@ func concurrentMergesort[T ad.Ordered](arr []T, left int, right int, b []T, quit
 		}
 
 	}
-	quit <- true
+	quit.Done()
 }
