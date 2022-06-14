@@ -1,16 +1,61 @@
-package quicksort
+package sort
 
 import (
 	"reflect"
 	"testing"
 )
 
+func TestQuicksort(t *testing.T) {
+	x, y := getRandomizedIntSliceAndSortedSolution()
+	type args struct {
+		a []int
+	}
+	tests := []struct {
+		name string
+		args args
+		want []int
+	}{
+		{
+			name: "inorder",
+			args: args{
+				a: []int{0, 1, 2, 3, 4, 5},
+			},
+			want: []int{0, 1, 2, 3, 4, 5},
+		},
+		{
+			name: "reverse",
+			args: args{
+				a: []int{5, 4, 3, 2, 1, 0},
+			},
+			want: []int{0, 1, 2, 3, 4, 5},
+		},
+		{
+			name: "sort",
+			args: args{
+				a: []int{2, 3, 1, 4, 5, 0},
+			},
+			want: []int{0, 1, 2, 3, 4, 5},
+		},
+		{
+			name: "big slice",
+			args: args{
+				a: x,
+			},
+			want: y,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := Quicksort(tt.args.a); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("Quicksort() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
 func Test_quicksort(t *testing.T) {
 	type args struct {
-		a         []byte
-		left      int
-		right     int
-		threshold int
+		a []byte
 	}
 	tests := []struct {
 		name string
@@ -23,8 +68,6 @@ func Test_quicksort(t *testing.T) {
 				a: []byte{
 					'b', 'a', 'c', 'e', 'a',
 				},
-				left:  0,
-				right: 4,
 			},
 			want: []byte{
 				'a', 'a', 'b', 'c', 'e',
@@ -36,8 +79,6 @@ func Test_quicksort(t *testing.T) {
 				a: []byte{
 					'z', 'y', 'f', 'a', 'j', 'p', 'q', 'g', 'e', 't',
 				},
-				left:  0,
-				right: 9,
 			},
 			want: []byte{
 				'a', 'e', 'f', 'g', 'j', 'p', 'q', 't', 'y', 'z',
@@ -46,8 +87,8 @@ func Test_quicksort(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := quicksort(tt.args.a, tt.args.left, tt.args.right, tt.args.threshold); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("quicksort() = %v, want %v", got, tt.want)
+			if got := Quicksort(tt.args.a); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("Quicksort() = %v, want %v", got, tt.want)
 			}
 		})
 	}

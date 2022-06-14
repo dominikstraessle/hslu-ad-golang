@@ -1,8 +1,7 @@
-package quicksort
+package sort
 
 import (
 	"ad"
-	"ad/sort"
 	"math/rand"
 )
 
@@ -11,26 +10,26 @@ func Quicksort[T ad.Ordered](a []T) []T {
 		return a
 	}
 
-	return quicksort(a, 0, len(a)-1, 32)
+	return quicksort(a, 0, len(a)-1, 25)
 }
 
-func quicksort[T ad.Ordered](a []T, left, right, threshold int) []T {
+func quicksort[T ad.Ordered](arr []T, left, right, threshold int) []T {
 	up := left        // left border
 	down := right - 1 // right border without pivot
-	t := a[right]     // right most element as pivot
+	t := arr[right]   // right most element as pivot
 	allChecked := false
 
 	for allChecked == false {
-		for a[up] < t {
+		for arr[up] < t {
 			up++ // search greater (>) element from the left side
 		}
 
-		for (a[down] > t) && (down > up) {
+		for (arr[down] > t) && (down > up) {
 			down-- // search lower (<) element from the right side
 		}
 
 		if down > up { // only if there is no intersection
-			a[up], a[down] = a[down], a[up]
+			arr[up], arr[down] = arr[down], arr[up]
 			up++   // move right side
 			down-- // move left side
 		} else {
@@ -38,29 +37,22 @@ func quicksort[T ad.Ordered](a []T, left, right, threshold int) []T {
 		}
 	}
 
-	a[up], a[right] = a[right], a[up] // pivot element to final position (a[up])
+	arr[up], arr[right] = arr[right], arr[up] // pivot element to final position (arr[up])
 	if left < (up - 1) {
-		if len(a[left:up]) <= threshold {
-			insertionSort(a, left, up, 0)
+		if len(arr[left:up]) <= threshold {
+			InsertionSort(arr[left:up])
 		} else {
-			quicksort(a, left, up-1, threshold) // left side
+			quicksort(arr, left, up-1, threshold) // left side
 		}
 	}
 	if (up + 1) < right {
-		if len(a[up+1:right+1]) <= threshold {
-			insertionSort(a, up+1, right+1, up+1)
+		if len(arr[up+1:right+1]) <= threshold {
+			InsertionSort(arr[up+1 : right+1])
 		} else {
-			quicksort(a, up+1, right, threshold) // right side
+			quicksort(arr, up+1, right, threshold) // right side
 		}
 	}
-	return a
-}
-
-func insertionSort[T ad.Ordered](a []T, lower, upper, margin int) {
-	sorted := sort.InsertionSort(a[lower:upper])
-	for i, newElement := range sorted {
-		a[i+margin] = newElement
-	}
+	return arr
 }
 
 func RandomBytes(length int) []byte {
