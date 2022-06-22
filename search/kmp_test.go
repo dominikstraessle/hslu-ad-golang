@@ -24,6 +24,15 @@ func Test_initNext(t *testing.T) {
 			},
 		},
 		{
+			name: "aaabaaac",
+			args: args{
+				pattern: "aaabaaac",
+			},
+			want: []int{
+				-1, 0, 1, 2, 0, 1, 2, 3, 0,
+			},
+		},
+		{
 			name: "abcxxxabcy",
 			args: args{
 				pattern: "abcxxxabcy",
