@@ -10,6 +10,7 @@ var digits = []rune("012345")
 
 var letterText = randSeq(100_000, letters)
 var digitText = randSeq(100_000, digits)
+
 var patternLetters = letterText[99_980:]
 var patternDigits = digitText[99_980:]
 
