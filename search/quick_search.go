@@ -30,19 +30,18 @@ func quickSearch(text, pattern string) int {
 	i, j := 0, 0
 	for {
 		// there is a match, increase j
-		if text[i+j] == pattern[j] {
+		if text[i+j] == pattern[j] { // match
 			j++
 		} else {
-			// no match
 			// check if it is still possible to make a match
-			if (i + m) < n {
+			if (i + m) < n { // mismatch
 				// shift the text index to the value from the shift array
 				// the value from the shift array is the character at the current text index plus the length of the pattern
 				i += shift[text[i+m]]
 				// reset the pattern found index to 0
 				j = 0
 			} else {
-				// no match is possible
+				// no match is possible / no shift is possible
 				break
 			}
 		}
