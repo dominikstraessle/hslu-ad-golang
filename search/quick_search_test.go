@@ -46,12 +46,28 @@ func Test_quickSearch(t *testing.T) {
 			want: -1,
 		},
 		{
-			name: "not found",
+			name: "found",
 			args: args{
 				text:    "1233ljl;kj;olkjd;oc3eo23ijer;j;ljje34241434",
 				pattern: "ljje",
 			},
 			want: 31,
+		},
+		{
+			name: "found with wildcard",
+			args: args{
+				text:    "1233ljl;kj;olkjd;oc3eo23ijer;j;ljje34241434",
+				pattern: "lj??3",
+			},
+			want: 31,
+		},
+		{
+			name: "found with only wildcard",
+			args: args{
+				text:    "1233ljl;kj;olkjd;oc3eo23ijer;j;ljje34241434",
+				pattern: "?????",
+			},
+			want: 0,
 		},
 	}
 	for _, tt := range tests {

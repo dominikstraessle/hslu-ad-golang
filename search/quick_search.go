@@ -1,5 +1,9 @@
 package search
 
+//quickSearch searches for the pattern in the given text
+// returns the index of the first pattern occurrence
+// or -1 if the pattern was not found
+// ? is allowed only as wildcard
 func quickSearch(text, pattern string) int {
 	n, m := len(text), len(pattern)
 
@@ -31,7 +35,7 @@ func quickSearch(text, pattern string) int {
 	i, j := 0, 0
 	for {
 		// there is a match, increase j
-		if text[i+j] == pattern[j] { // match
+		if text[i+j] == pattern[j] || pattern[j] == "?"[0] { // match
 			j++
 		} else {
 			// check if it is still possible to make a match
