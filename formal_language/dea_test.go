@@ -28,10 +28,13 @@ func FuzzIsWordLanguage(f *testing.F) {
 	f.Fuzz(func(t *testing.T, word string) {
 		gotIterative := isWordLanguage(word)
 		gotRecursive := isWordLanguageRecursive(word)
-		gotRegex := isWordLanguageRegex(word)
+		//gotRegex := isWordLanguageRegex(word)
+		gotDEA := isWordLanguageDEA(word)
 
-		if gotIterative != gotRecursive || gotRecursive != gotRegex || gotIterative != gotRegex {
-			t.Errorf("%s got following results: iter(%v) recursive(%v) regex(%v)", word, gotIterative, gotRecursive, gotRegex)
+		//if gotIterative != gotRecursive || gotRecursive != gotRegex || gotIterative != gotRegex || gotIterative != gotDEA {
+		if gotIterative != gotRecursive || gotIterative != gotDEA {
+			//t.Errorf("%s got following results: iter(%v) recursive(%v) regex(%v)", word, gotIterative, gotRecursive, gotRegex)
+			t.Errorf("%s got following results: iter(%v) recursive(%v)", word, gotIterative, gotRecursive)
 		}
 	})
 }
