@@ -45,6 +45,14 @@ func Test_quickSearch(t *testing.T) {
 			},
 			want: -1,
 		},
+		{
+			name: "not found",
+			args: args{
+				text:    "1233ljl;kj;olkjd;oc3eo23ijer;j;ljje34241434",
+				pattern: "ljje",
+			},
+			want: 31,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

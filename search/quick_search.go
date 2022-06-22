@@ -12,9 +12,10 @@ func quickSearch(text, pattern string) int {
 	shift := make([]int, asciiRange)
 
 	// init the shift array
-	// value for each ascii position becomes index + length of the pattern
+	// value for each ascii position becomes length of the pattern + one
+	defaultShift := m + 1
 	for i := 0; i < asciiRange; i++ {
-		shift[i] = m + i
+		shift[i] = defaultShift
 	}
 
 	// overwrite fields according pattern
