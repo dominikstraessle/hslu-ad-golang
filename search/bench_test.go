@@ -5,11 +5,13 @@ import (
 	"testing"
 )
 
-var letters = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
+var letters = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
 var digits = []rune("012345")
 
 var letterText = randSeq(100_000, letters)
 var digitText = randSeq(100_000, digits)
+var patternLetters = letterText[99_980:]
+var patternDigits = digitText[99_980:]
 
 func randSeq(n int, alphabet []rune) string {
 	rand.Seed(1) // we want the same "random" sequence for each benchmark
@@ -21,36 +23,37 @@ func randSeq(n int, alphabet []rune) string {
 }
 
 func BenchmarkQuickSearch(b *testing.B) {
-	pattern := letterText[99_995:]
-	result := -1
 	for i := 0; i < b.N; i++ {
-		result = QuickSearch(letterText, pattern)
+		QuickSearch(letterText, patternLetters)
 	}
-	b.Logf("pattern: %v\nresult: %v", pattern, result)
 }
 
 func BenchmarkKMPSearch(b *testing.B) {
-	pattern := letterText[99_995:]
-	result := -1
 	for i := 0; i < b.N; i++ {
-		result = KMPSearch(letterText, pattern)
+		KMPSearch(letterText, patternLetters)
 	}
-	b.Logf("pattern: %v\nresult: %v", pattern, result)
 }
-func BenchmarkQuickSearchDigits(b *testing.B) {
-	pattern := digitText[99_990:]
-	result := -1
+
+func BenchmarkSimpleSearch(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		result = QuickSearch(digitText, pattern)
+		SimpleSearch(letterText, patternLetters)
 	}
-	b.Logf("pattern: %v\nresult: %v", pattern, result)
+}
+
+func BenchmarkQuickSearchDigits(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		QuickSearch(digitText, patternDigits)
+	}
 }
 
 func BenchmarkKMPSearchDigits(b *testing.B) {
-	pattern := digitText[99_990:]
-	result := -1
 	for i := 0; i < b.N; i++ {
-		result = KMPSearch(digitText, pattern)
+		KMPSearch(digitText, patternDigits)
 	}
-	b.Logf("pattern: %v\nresult: %v", pattern, result)
+}
+
+func BenchmarkSimpleSearchDigits(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		SimpleSearch(digitText, patternDigits)
+	}
 }
