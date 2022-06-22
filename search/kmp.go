@@ -10,7 +10,7 @@ func initNext(pattern string) []int {
 	i := 0  // index for the loop
 	j := -1 // start length with -1
 
-	for true {
+	for {
 		// if the pattern matches the beginning
 		if (j == -1) || (pattern[i] == pattern[j]) {
 			i++         // increase the index
@@ -23,7 +23,7 @@ func initNext(pattern string) []int {
 
 		// if i becomes greater than the length - 1 -> you are finished
 		if i > (m - 1) {
-			return next
+			break
 		}
 	}
 
