@@ -72,8 +72,8 @@ func Test_quickSearch(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := quickSearch(tt.args.text, tt.args.pattern); got != tt.want {
-				t.Errorf("quickSearch() = %v, want %v", got, tt.want)
+			if got := QuickSearch(tt.args.text, tt.args.pattern); got != tt.want {
+				t.Errorf("QuickSearch() = %v, want %v", got, tt.want)
 			}
 		})
 	}

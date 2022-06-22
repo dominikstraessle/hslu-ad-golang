@@ -24,6 +24,15 @@ func Test_initNext(t *testing.T) {
 			},
 		},
 		{
+			name: "EISBEIN",
+			args: args{
+				pattern: "EISBEIN",
+			},
+			want: []int{
+				-1, 0, 0, 0, 0, 1, 2, 0,
+			},
+		},
+		{
 			name: "aaabaaac",
 			args: args{
 				pattern: "aaabaaac",
@@ -96,8 +105,8 @@ func Test_kmpSearch(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := kmpSearch(tt.args.text, tt.args.pattern); got != tt.want {
-				t.Errorf("kmpSearch() = %v, want %v", got, tt.want)
+			if got := KMPSearch(tt.args.text, tt.args.pattern); got != tt.want {
+				t.Errorf("KMPSearch() = %v, want %v", got, tt.want)
 			}
 		})
 	}

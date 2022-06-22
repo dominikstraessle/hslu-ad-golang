@@ -30,7 +30,7 @@ func initNext(pattern string) []int {
 	return next
 }
 
-func kmpSearch(text, pattern string) int {
+func KMPSearch(text, pattern string) int {
 	n := len(text)
 	m := len(pattern)
 	if m > n {

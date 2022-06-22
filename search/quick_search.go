@@ -1,10 +1,10 @@
 package search
 
-//quickSearch searches for the pattern in the given text
+//QuickSearch searches for the pattern in the given text
 // returns the index of the first pattern occurrence
 // or -1 if the pattern was not found
 // ? is allowed only as wildcard
-func quickSearch(text, pattern string) int {
+func QuickSearch(text, pattern string) int {
 	n, m := len(text), len(pattern)
 
 	// pattern cannot be longer than text
