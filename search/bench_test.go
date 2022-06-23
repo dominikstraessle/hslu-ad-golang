@@ -1,6 +1,7 @@
 package search
 
 import (
+	"io/ioutil"
 	"math/rand"
 	"testing"
 )
@@ -29,6 +30,12 @@ func BenchmarkQuickSearch(b *testing.B) {
 	}
 }
 
+func BenchmarkOptimalMismatch(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		OptimalMismatch(letterText, patternLetters)
+	}
+}
+
 func BenchmarkKMPSearch(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		KMPSearch(letterText, patternLetters)
@@ -47,6 +54,12 @@ func BenchmarkQuickSearchDigits(b *testing.B) {
 	}
 }
 
+func BenchmarkOptimalMismatchDigits(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		OptimalMismatch(digitText, patternDigits)
+	}
+}
+
 func BenchmarkKMPSearchDigits(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		KMPSearch(digitText, patternDigits)
@@ -57,4 +70,41 @@ func BenchmarkSimpleSearchDigits(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		SimpleSearch(digitText, patternDigits)
 	}
+}
+
+func BenchmarkQuickSearchText(b *testing.B) {
+	text := getText(b)
+	for i := 0; i < b.N; i++ {
+		QuickSearch(text, "have been in use are likewise faithfully")
+	}
+}
+
+func BenchmarkOptimalMismatchText(b *testing.B) {
+	text := getText(b)
+	for i := 0; i < b.N; i++ {
+		OptimalMismatch(text, "have been in use are likewise faithfully")
+	}
+}
+
+func BenchmarkKMPSearchText(b *testing.B) {
+	text := getText(b)
+	for i := 0; i < b.N; i++ {
+		KMPSearch(text, "have been in use are likewise faithfully")
+	}
+}
+
+func BenchmarkSimpleSearchText(b *testing.B) {
+	text := getText(b)
+	for i := 0; i < b.N; i++ {
+		SimpleSearch(text, "have been in use are likewise faithfully")
+	}
+}
+
+func getText(b *testing.B) string {
+	b.Helper()
+	content, err := ioutil.ReadFile("mobydick.txt")
+	if err != nil {
+		b.Fatalf("failed to read sample text: %v", err)
+	}
+	return string(content)
 }
