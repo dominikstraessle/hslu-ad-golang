@@ -1,10 +1,10 @@
 module ad
 
-go 1.18
+go 1.20
 
 require (
 	github.com/stretchr/testify v1.7.1
-	golang.org/x/sync v0.0.0-20220601150217-0de741cfad7f
+	golang.org/x/sync v0.2.0
 	golang.org/x/tour v0.1.0
 )
 
