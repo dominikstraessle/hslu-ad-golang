@@ -1,18 +1,16 @@
-//Package tree -> Week 02
+// Package tree -> Week 02
 package tree
 
-import (
-	"ad"
-)
+import "golang.org/x/exp/constraints"
 
-type Tree[T ad.Ordered] interface {
+type Tree[T constraints.Ordered] interface {
 	Insert(T)
 	Remove(T)
 	Contains(T) bool
 	Inorder() []T
 }
 
-type BinaryTree[T ad.Ordered] struct {
+type BinaryTree[T constraints.Ordered] struct {
 	root *Node[T]
 }
 
@@ -26,7 +24,7 @@ func (b *BinaryTree[T]) Insert(t T) {
 	insert(b.root, t)
 }
 
-func insert[T ad.Ordered](n *Node[T], t T) {
+func insert[T constraints.Ordered](n *Node[T], t T) {
 	if t < n.value {
 		if n.left == nil {
 			n.left = &Node[T]{
@@ -83,7 +81,7 @@ func (b *BinaryTree[T]) switchAndRemoveRoot(t T) {
 	b.root = b.root.right
 }
 
-func remove[T ad.Ordered](parent *Node[T], n *Node[T], t T) {
+func remove[T constraints.Ordered](parent *Node[T], n *Node[T], t T) {
 	if n == nil {
 		return
 	}
@@ -118,7 +116,7 @@ func remove[T ad.Ordered](parent *Node[T], n *Node[T], t T) {
 	switchAndRemoveNode(parent, n, t)
 }
 
-func switchToRightChildNode[T ad.Ordered](parent *Node[T], n *Node[T]) {
+func switchToRightChildNode[T constraints.Ordered](parent *Node[T], n *Node[T]) {
 	if parent.left == n {
 		parent.left = n.right
 	} else {
@@ -126,7 +124,7 @@ func switchToRightChildNode[T ad.Ordered](parent *Node[T], n *Node[T]) {
 	}
 }
 
-func switchToLeftChildNode[T ad.Ordered](parent *Node[T], n *Node[T]) {
+func switchToLeftChildNode[T constraints.Ordered](parent *Node[T], n *Node[T]) {
 	if parent.left == n {
 		parent.left = n.left
 	} else {
@@ -134,7 +132,7 @@ func switchToLeftChildNode[T ad.Ordered](parent *Node[T], n *Node[T]) {
 	}
 }
 
-func switchAndRemoveNode[T ad.Ordered](parent *Node[T], n *Node[T], t T) {
+func switchAndRemoveNode[T constraints.Ordered](parent *Node[T], n *Node[T], t T) {
 	// both child nodes exist -> switch and remove
 	if n.left != nil && n.right != nil {
 		n.value = getLeftMostValue(n, n.right, t)
@@ -151,7 +149,7 @@ func switchAndRemoveNode[T ad.Ordered](parent *Node[T], n *Node[T], t T) {
 	parent.right = nil
 }
 
-func getLeftMostValue[T ad.Ordered](parent *Node[T], left *Node[T], t T) T {
+func getLeftMostValue[T constraints.Ordered](parent *Node[T], left *Node[T], t T) T {
 	if left.left == nil {
 		tmp := left.value
 		left.value = t
@@ -165,7 +163,7 @@ func (b *BinaryTree[T]) Search(t T) bool {
 	return search(b.root, t)
 }
 
-func search[T ad.Ordered](n *Node[T], t T) bool {
+func search[T constraints.Ordered](n *Node[T], t T) bool {
 	if n == nil {
 		return false
 	}
@@ -182,7 +180,7 @@ func (b *BinaryTree[T]) Inorder() []T {
 	return inorder([]T{}, b.root)
 }
 
-func inorder[T ad.Ordered](values []T, n *Node[T]) []T {
+func inorder[T constraints.Ordered](values []T, n *Node[T]) []T {
 	if n == nil {
 		return values
 	}
@@ -196,7 +194,7 @@ func inorder[T ad.Ordered](values []T, n *Node[T]) []T {
 	return values
 }
 
-type Node[T ad.Ordered] struct {
+type Node[T constraints.Ordered] struct {
 	value T
 	left  *Node[T]
 	right *Node[T]

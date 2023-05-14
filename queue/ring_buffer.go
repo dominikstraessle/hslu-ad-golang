@@ -1,4 +1,4 @@
-//Package queue -> Week 02
+// Package queue -> Week 02
 package queue
 
 import "errors"
@@ -29,7 +29,7 @@ func (a *ArrayRingBuffer[T]) Offer(t *T) error {
 	return nil
 }
 
-//increaseIndex by one but respect the ring buffers underlying array size
+// increaseIndex by one but respect the ring buffers underlying array size
 func increaseIndex(i uint) uint {
 	return (i + 1) % SIZE
 }

@@ -1,6 +1,6 @@
 package search
 
-//OptimalMismatch searches for the pattern in the given text
+// OptimalMismatch searches for the pattern in the given text
 // returns the index of the first pattern occurrence
 // or -1 if the pattern was not found
 // ? is allowed only as wildcard

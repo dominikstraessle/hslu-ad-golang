@@ -9,7 +9,7 @@ import (
 	"runtime"
 )
 
-//primesConcurrent generates and prints up to rounds valid prime numbers
+// primesConcurrent generates and prints up to rounds valid prime numbers
 func primesConcurrentNew(ctx context.Context, rounds uint32) {
 	// create context with cancel function
 	ctx, cancelFunc := context.WithCancel(ctx)
@@ -28,7 +28,7 @@ func primesConcurrentNew(ctx context.Context, rounds uint32) {
 	cancelFunc()
 }
 
-//runWorkOrchestrator creates a running prime finder workerFn for each available cpu core until the context gets cancelled
+// runWorkOrchestrator creates a running prime finder workerFn for each available cpu core until the context gets cancelled
 func runWorkOrchestrator(ctx context.Context, results chan *big.Int) {
 	// semaphore to control number of active workers
 	sema := semaphore.NewWeighted(int64(runtime.NumCPU()))
@@ -46,7 +46,7 @@ func runWorkOrchestrator(ctx context.Context, results chan *big.Int) {
 	}
 }
 
-//workerFn tries to find a prime number before the context is cancelled otherwise cancels
+// workerFn tries to find a prime number before the context is cancelled otherwise cancels
 func workerFn(max *big.Int, ctx context.Context, results chan *big.Int, sema *semaphore.Weighted) {
 	result := make(chan *big.Int, 1)
 	tryFindPrime(max, result)
@@ -66,7 +66,7 @@ func workerFn(max *big.Int, ctx context.Context, results chan *big.Int, sema *se
 	sema.Release(1)
 }
 
-//tryFindPrime generate a random number. Send number to chan else send nil value.
+// tryFindPrime generate a random number. Send number to chan else send nil value.
 func tryFindPrime(max *big.Int, result chan *big.Int) {
 	n := getRandomNumber(max)
 	if n.ProbablyPrime(math.MaxInt) {

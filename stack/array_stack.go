@@ -1,4 +1,4 @@
-//Package stack -> Week 02
+// Package stack -> Week 02
 package stack
 
 import "errors"
@@ -8,7 +8,7 @@ type Stack[T any] interface {
 	Pop() (*T, error)
 }
 
-//SIZE of the array
+// SIZE of the array
 const SIZE = 5
 
 type ArrayStack[T any] struct {

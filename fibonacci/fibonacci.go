@@ -1,4 +1,4 @@
-//Package fibonacci -> Week 01
+// Package fibonacci -> Week 01
 package fibonacci
 
 func fiboRec(n int) int {

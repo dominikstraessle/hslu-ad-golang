@@ -1,16 +1,14 @@
 package heap
 
-import (
-	"ad"
-)
+import "golang.org/x/exp/constraints"
 
-type IntegerHeap[T ad.Ordered] interface {
+type IntegerHeap[T constraints.Ordered] interface {
 	Insert(e T)
 	DeleteRoot() T
 	Print() []T
 }
 
-func Heapsort[T ad.Ordered](arr []T) []T {
+func Heapsort[T constraints.Ordered](arr []T) []T {
 	h := NewFixedSizeHeap[T](len(arr))
 	for _, t := range arr {
 		h.Insert(t)
@@ -24,7 +22,7 @@ func Heapsort[T ad.Ordered](arr []T) []T {
 
 // only supports bytes
 // a zero value is used for empty array entries
-type FixedSizeHeap[T ad.Ordered] struct {
+type FixedSizeHeap[T constraints.Ordered] struct {
 	arr        []T
 	lastIndex  int // unused or -1 if full
 	emptyValue T
@@ -34,7 +32,7 @@ func (f *FixedSizeHeap[T]) Print() []T {
 	return f.arr
 }
 
-func NewFixedSizeHeap[T ad.Ordered](size int) IntegerHeap[T] {
+func NewFixedSizeHeap[T constraints.Ordered](size int) IntegerHeap[T] {
 	return &FixedSizeHeap[T]{
 		arr: make([]T, size),
 	}

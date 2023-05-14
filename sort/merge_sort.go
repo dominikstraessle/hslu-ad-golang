@@ -1,19 +1,19 @@
 package sort
 
 import (
-	"ad"
+	"golang.org/x/exp/constraints"
 	"sync"
 )
 
 const ConcurrentThreshold = 500
 
-func Mergesort[T ad.Ordered](arr []T) []T {
+func Mergesort[T constraints.Ordered](arr []T) []T {
 	b := make([]T, len(arr)+1)
 
 	return mergesort(arr, 0, len(arr)-1, b)
 }
 
-func mergesort[T ad.Ordered](arr []T, left int, right int, b []T) []T {
+func mergesort[T constraints.Ordered](arr []T, left int, right int, b []T) []T {
 	var i, j, k, m int
 	if right > left {
 		m = (right + left) / 2
@@ -42,7 +42,7 @@ func mergesort[T ad.Ordered](arr []T, left int, right int, b []T) []T {
 	return arr
 }
 
-func ConcurrentMergesort[T ad.Ordered](arr []T) []T {
+func ConcurrentMergesort[T constraints.Ordered](arr []T) []T {
 	b := make([]T, len(arr)+1)
 
 	wg := &sync.WaitGroup{}
@@ -52,7 +52,7 @@ func ConcurrentMergesort[T ad.Ordered](arr []T) []T {
 	return arr
 }
 
-func concurrentMergesort[T ad.Ordered](arr []T, left int, right int, b []T, quit *sync.WaitGroup) {
+func concurrentMergesort[T constraints.Ordered](arr []T, left int, right int, b []T, quit *sync.WaitGroup) {
 	var i, j, k, m int
 	if right > left {
 		m = (right + left) / 2

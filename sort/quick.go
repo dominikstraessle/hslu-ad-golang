@@ -1,13 +1,13 @@
 package sort
 
 import (
-	"ad"
-	"math/rand"
+	"crypto/rand"
+	"golang.org/x/exp/constraints"
 )
 
 const ConcurrentQuicksortThreshold = 50_000
 
-func Quicksort[T ad.Ordered](a []T) []T {
+func Quicksort[T constraints.Ordered](a []T) []T {
 	if len(a) <= 1 {
 		return a
 	}
@@ -15,7 +15,7 @@ func Quicksort[T ad.Ordered](a []T) []T {
 	return quicksort(a, 0, len(a)-1, 25)
 }
 
-func quicksort[T ad.Ordered](arr []T, left, right, threshold int) []T {
+func quicksort[T constraints.Ordered](arr []T, left, right, threshold int) []T {
 	up := left        // left border
 	down := right - 1 // right border without pivot
 	pivot := medianOfThree(arr, left, right)
@@ -57,11 +57,11 @@ func quicksort[T ad.Ordered](arr []T, left, right, threshold int) []T {
 	return arr
 }
 
-//ConcurrentQuicksort sorts the sub-sequences concurrently when there length is above the ConcurrentQuicksortThreshold
-//I couldn't win any performance gains yet -> maybe check the implementation or the threshold again
-//A problem could be, that the current implementation shares the same array but operates on different parts of it
-//This array may have to be switched around in the processor for each running goroutine -> a fork-join could prevent this problem
-func ConcurrentQuicksort[T ad.Ordered](a []T) []T {
+// ConcurrentQuicksort sorts the sub-sequences concurrently when there length is above the ConcurrentQuicksortThreshold
+// I couldn't win any performance gains yet -> maybe check the implementation or the threshold again
+// A problem could be, that the current implementation shares the same array but operates on different parts of it
+// This array may have to be switched around in the processor for each running goroutine -> a fork-join could prevent this problem
+func ConcurrentQuicksort[T constraints.Ordered](a []T) []T {
 	if len(a) <= 1 {
 		return a
 	}
@@ -72,7 +72,7 @@ func ConcurrentQuicksort[T ad.Ordered](a []T) []T {
 	return a
 }
 
-func concurrentQuicksort[T ad.Ordered](arr []T, left, right, threshold int, quitChannel chan bool) {
+func concurrentQuicksort[T constraints.Ordered](arr []T, left, right, threshold int, quitChannel chan bool) {
 	up := left        // left border
 	down := right - 1 // right border without pivot
 	pivot := medianOfThree(arr, left, right)
@@ -132,7 +132,7 @@ func concurrentQuicksort[T ad.Ordered](arr []T, left, right, threshold int, quit
 	quitChannel <- true
 }
 
-func medianOfThree[T ad.Ordered](arr []T, left int, right int) T {
+func medianOfThree[T constraints.Ordered](arr []T, left int, right int) T {
 	// median of three
 	middle := right / 2
 	if arr[left] < arr[right] && arr[left] > arr[middle] {

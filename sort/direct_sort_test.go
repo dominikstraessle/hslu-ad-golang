@@ -222,7 +222,7 @@ func BenchmarkInsertionSort(b *testing.B) {
 	}
 }
 
-//BenchmarkInsertionSortBigSlice shows the performance loss for big slices compared to shell sort
+// BenchmarkInsertionSortBigSlice shows the performance loss for big slices compared to shell sort
 func BenchmarkInsertionSortBigSlice(b *testing.B) {
 	var x []int
 	for i := 0; i < 100_000; i++ {
@@ -253,7 +253,7 @@ func BenchmarkInsertionSortPessimistic(b *testing.B) {
 	}
 }
 
-//BenchmarkShellSortBigSlice shows the performance gain for big slices compared to insertion sort
+// BenchmarkShellSortBigSlice shows the performance gain for big slices compared to insertion sort
 func BenchmarkShellSortBigSlice(b *testing.B) {
 	var x []int
 	for i := 0; i < 100_000; i++ {

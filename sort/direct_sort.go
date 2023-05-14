@@ -1,11 +1,11 @@
 package sort
 
 import (
-	"ad"
+	"golang.org/x/exp/constraints"
 	"math"
 )
 
-func InsertionSort[T ad.Ordered](arr []T) []T {
+func InsertionSort[T constraints.Ordered](arr []T) []T {
 	for currentIndex := 1; currentIndex < len(arr); currentIndex++ {
 		temporary := arr[currentIndex]
 		iterator := currentIndex
@@ -22,7 +22,7 @@ func InsertionSort[T ad.Ordered](arr []T) []T {
 	return arr
 }
 
-func ShellSort[T ad.Ordered](arr []T) []T {
+func ShellSort[T constraints.Ordered](arr []T) []T {
 	// only use gaps for slices greater than 10_000
 	if len(arr) < 10_000 {
 		return InsertionSort(arr)
@@ -47,7 +47,7 @@ func ShellSort[T ad.Ordered](arr []T) []T {
 	return arr
 }
 
-//getGaps returns gap sizes for the hibbard sequence
+// getGaps returns gap sizes for the hibbard sequence
 func getGaps(sliceSize int) []int {
 	nGaps := int(math.Ceil(float64(sliceSize / 10_000)))
 	gaps := make([]int, nGaps)
@@ -58,7 +58,7 @@ func getGaps(sliceSize int) []int {
 	return gaps
 }
 
-func SelectionSort[T ad.Ordered](arr []T) []T {
+func SelectionSort[T constraints.Ordered](arr []T) []T {
 	for i := 0; i < len(arr); i++ {
 		temp := arr[i]
 		smallestIndex := 0
@@ -82,7 +82,7 @@ func SelectionSort[T ad.Ordered](arr []T) []T {
 	return arr
 }
 
-func BubbleSort[T ad.Ordered](arr []T) []T {
+func BubbleSort[T constraints.Ordered](arr []T) []T {
 	// repeat bubble sort as many times as the array has elements
 	for j := 0; j < len(arr); j++ {
 

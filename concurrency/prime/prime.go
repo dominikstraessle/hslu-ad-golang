@@ -12,7 +12,7 @@ import (
 	"sync/atomic"
 )
 
-//primesConcurrent generates and prints up to rounds valid prime numbers
+// primesConcurrent generates and prints up to rounds valid prime numbers
 func primesConcurrent(rounds uint32) {
 	// number of workers
 	nWorkers := runtime.NumCPU()
@@ -81,7 +81,7 @@ func primes(rounds int) {
 	}
 }
 
-//getMaxRandomNumber from https://stackoverflow.com/a/45428754/7130107
+// getMaxRandomNumber from https://stackoverflow.com/a/45428754/7130107
 func getMaxRandomNumber() *big.Int {
 	//Max random value, a 130-bits integer, i.e 2^130 - 1
 	max := new(big.Int)

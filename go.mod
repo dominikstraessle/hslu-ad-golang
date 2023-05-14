@@ -4,6 +4,7 @@ go 1.20
 
 require (
 	github.com/stretchr/testify v1.7.1
+	golang.org/x/exp v0.0.0-20230510235704-dd950f8aeaea
 	golang.org/x/sync v0.2.0
 	golang.org/x/tour v0.1.0
 )
